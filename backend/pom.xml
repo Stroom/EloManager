@@ -58,6 +58,18 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
 
+        <!--
+        mvn org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file -Dfile=backend/BigDecimalMath.jar
+        -DgroupId=org.nevec.rjm -DartifactId=org.nevec.rjm.BigDecimalMath -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar
+        -DlocalRepositoryPath=local-maven-repo
+        https://stackoverflow.com/questions/4955635/how-to-add-local-jar-files-to-a-maven-project/22300875#22300875
+        -->
+        <dependency>
+            <groupId>org.nevec.rjm</groupId>
+            <artifactId>org.nevec.rjm.BigDecimalMath</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>ee.stroom</groupId>
             <artifactId>frontend</artifactId>
@@ -66,6 +78,13 @@
         </dependency>
 
 	</dependencies>
+
+    <repositories>
+        <repository>
+            <id>local-maven-repo</id>
+            <url>file:///${project.basedir}../local-maven-repo</url>
+        </repository>
+    </repositories>
 
 	<build>
 		<plugins>

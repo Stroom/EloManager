@@ -5,6 +5,7 @@ import ee.stroom.ranking.model.Ranking;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.javatuples.Pair;
+import org.nevec.rjm.BigDecimalMath;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -57,8 +58,8 @@ public class Game {
 	 * Taken from https://dataskeptic.com/blog/methods/2017/calculating-an-elo-rating
 	 */
 	public Pair<BigDecimal,BigDecimal> calculateRankingDeltas(Player player, Player opponent, Ranking playerRanking, Ranking opponentRanking) {
-		BigDecimal playerR = BigDecimal.ONE; //BigDecimalMath.pow(BigDecimal.TEN, playerRanking.getValue().divide(BigDecimal.valueOf(400)));
-		BigDecimal opponentR = BigDecimal.ONE; //BigDecimalMath.pow(BigDecimal.TEN, opponentRanking.getValue().divide(BigDecimal.valueOf(400)));
+		BigDecimal playerR = BigDecimalMath.pow(BigDecimal.TEN, playerRanking.getValue().divide(BigDecimal.valueOf(400)));
+		BigDecimal opponentR = BigDecimalMath.pow(BigDecimal.TEN, opponentRanking.getValue().divide(BigDecimal.valueOf(400)));
 		
 		BigDecimal playerE = playerR.divide(playerR.add(opponentR));
 		BigDecimal opponentE = opponentR.divide(playerR.add(opponentR));
