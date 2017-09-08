@@ -1,0 +1,5 @@
+<h3>Log in</h3>
+<input type="text" [(ngModel)]="username" (keyup.enter)="login()">
+<input type="password" [(ngModel)]="password" (keyup.enter)="login()">
+<button (click)="login()">Login</button>
+<div>{{error}}</div>

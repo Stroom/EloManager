@@ -1,1 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+/* Basically for overriding bootstrap stuff. And some custom made styles if needed. */
+.navbar-right {
+  margin-right: 0px;
+}

@@ -1,0 +1,4 @@
+<h3>Register new user</h3>
+<input type="text" [(ngModel)]="username" (keyup.enter)="register()">
+<input type="password" [(ngModel)]="password" (keyup.enter)="register()">
+<button (click)="register()">Register</button>
