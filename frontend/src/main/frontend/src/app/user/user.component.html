@@ -1,5 +1,18 @@
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript!
     Please enable Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
-    Trololo. TEST USER PAGE.
+  <table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th class="text-center">Username</th>
+      <th class="text-center">Games</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let u of users">
+      <td>{{u.userName}}</td>
+      <td>{{u.rankings.length}}</td>
+    </tr>
+    </tbody>
+  </table>
 </div>

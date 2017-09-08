@@ -64,7 +64,7 @@ public class GameService {
 		Game game = null;
 		try {
 			//TODO validation
-			game = gameRepository.getGameByName(matchDTO.getGame());
+			game = gameRepository.getGameByName(matchDTO.getGameName());
 			Match match = new Match(game);
 			List<Player> players = new ArrayList<Player>();
 			

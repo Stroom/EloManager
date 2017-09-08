@@ -16,6 +16,7 @@ import {MatchService} from "./game/match/match.service";
 import {GameComponent} from "./game/game.component";
 import {GameService} from "./game/game.service";
 import {RegistrationComponent} from "./authentication/registration/registration.component";
+import {UserResolve} from "./user/user.resolve";
 
 const routes: Routes = [
   {
@@ -36,7 +37,8 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    component: UserComponent
+    component: UserComponent,
+    resolve: { users: UserResolve }
   },
   {
     path: '',
@@ -48,8 +50,12 @@ const routes: Routes = [
     path: 'match',
     component: MatchComponent,
     canActivate: [ CanActivateAuthGuard ]
-  }
+  },
   //TODO add default error page.
+  {
+    path: 'error',
+    redirectTo: 'home'
+  }
 ];
 
 @NgModule({
@@ -74,7 +80,9 @@ const routes: Routes = [
 
     MatchService,
     GameService,
-    UserService
+    UserService,
+
+    UserResolve
   ],
   bootstrap: [AppComponent]
 })
