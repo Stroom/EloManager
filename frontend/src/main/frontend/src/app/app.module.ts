@@ -2,21 +2,24 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import {Routes, RouterModule} from "@angular/router";
-import {FormsModule} from "@angular/forms";
-import {HttpModule} from "@angular/http";
-import {HomeComponent} from "./home.component";
-import {AuthenticationComponent} from "./authentication/authentication.component";
-import {AuthenticationService} from "./authentication/authentication.service";
-import {CanActivateAuthGuard} from "./authentication/can-activate.authguard";
-import {UserComponent} from "./user/user.component";
-import {UserService} from "./user/user.service";
-import {MatchComponent} from "./game/match/match.component";
-import {MatchService} from "./game/match/match.service";
-import {GameComponent} from "./game/game.component";
-import {GameService} from "./game/game.service";
-import {RegistrationComponent} from "./authentication/registration/registration.component";
-import {UserResolve} from "./user/user.resolve";
+import { Routes, RouterModule } from "@angular/router";
+import { FormsModule } from "@angular/forms";
+import { HttpModule } from "@angular/http";
+import { HomeComponent } from "./home.component";
+import { AuthenticationComponent } from "./authentication/authentication.component";
+import { AuthenticationService } from "./authentication/authentication.service";
+import { CanActivateAuthGuard } from "./authentication/can-activate.authguard";
+import { UserComponent } from "./user/user.component";
+import { UserService } from "./user/user.service";
+import { MatchComponent } from "./game/match/match.component";
+import { MatchService } from "./game/match/match.service";
+import { GameComponent } from "./game/game.component";
+import { GameService } from "./game/game.service";
+import { RegistrationComponent } from "./authentication/registration/registration.component";
+import { UserResolve } from "./user/user.resolve";
+import { GameResolve } from "./game/game.resolve";
+import { GameRankingsComponent } from "./game/rankings/game-rankings.component";
+import { GameRankingsResolve } from "./game/rankings/game-rankings.resolve";
 
 const routes: Routes = [
   {
@@ -33,7 +36,13 @@ const routes: Routes = [
   },
   {
     path: 'games',
-    component: GameComponent
+    component: GameComponent,
+    resolve: { games: GameResolve }
+  },
+  {
+    path: 'games/:gameName/rankings',//TODO use gameId?
+    component: GameRankingsComponent,
+    resolve: { rankings: GameRankingsResolve }
   },
   {
     path: 'users',
@@ -66,6 +75,7 @@ const routes: Routes = [
     RegistrationComponent,
     MatchComponent,
     GameComponent,
+    GameRankingsComponent,
     UserComponent
   ],
   imports: [
@@ -82,6 +92,8 @@ const routes: Routes = [
     GameService,
     UserService,
 
+    GameResolve,
+    GameRankingsResolve,
     UserResolve
   ],
   bootstrap: [AppComponent]

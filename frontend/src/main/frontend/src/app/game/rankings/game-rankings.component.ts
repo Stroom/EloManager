@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthenticationService } from "app/authentication/authentication.service";
-import { GameService } from "./game.service";
-import { Game } from "../definitions";
+import { GameService } from "../game.service";
+import { Ranking } from "../../definitions";
 
 @Component({
-  selector: 'game-component',
-  templateUrl: 'game.component.html'
+  selector: 'game-rankings-component',
+  templateUrl: 'game-rankings.component.html'
 })
-export class GameComponent implements OnInit {
+export class GameRankingsComponent implements OnInit {
 
-  games: Array<Game>;
+  name: string;
+  rankings: Array<Ranking>;
 
   constructor(
     private authentication: AuthenticationService,
@@ -21,13 +22,16 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data
-      .subscribe((data: {games: Game[]}) => {
-          this.games = data.games;
+      .subscribe((data: {rankings: Ranking[]}) => {
+          this.rankings = data.rankings;
         },
         err => {
           console.log("Could not retrieve users data.");
           this.router.navigateByUrl('error');
         });
+    this.route.params.subscribe(params => {
+      this.name = params['gameName'];
+    });
   }
 
 }

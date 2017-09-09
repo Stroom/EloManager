@@ -13,6 +13,7 @@ import java.util.Map;
 @Configuration
 public class WebToAngularConfig {
 	//https://stackoverflow.com/questions/38516667/springboot-angular2-how-to-handle-html5-urls
+	//TODO not sure if needed
 	@Bean
 	ErrorViewResolver supportPathBasedLocationStrategyWithoutHashes() {
 		return new ErrorViewResolver() {

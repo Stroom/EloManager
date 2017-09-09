@@ -1,5 +1,17 @@
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript!
     Please enable Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
-    Trololo. TEST GAME PAGE.
+  <h2>All games</h2>
+  <table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th class="text-center">Game</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let g of games">
+      <td><a [routerLink]="['/games', g.name, 'rankings']">{{g.name}}</a></td>
+    </tr>
+    </tbody>
+  </table>
 </div>

@@ -6,6 +6,7 @@ import ee.stroom.user.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,12 @@ public class UserService {
 	}
 	
 	public List<UserDTO> getAllUsers() {
-		return userRepository.findAll().stream().map(user -> new UserDTO(user)).collect(Collectors.toList());
+		return userRepository.findAll().stream().map(user -> new UserDTO(user)).sorted(new Comparator<UserDTO>() {
+			@Override
+			public int compare(UserDTO o1, UserDTO o2) {
+				return o1.getUserName().compareTo(o2.getUserName());
+			}
+		}).collect(Collectors.toList());
 	}
 	
 	public UserDTO getUserByName(String username) {
