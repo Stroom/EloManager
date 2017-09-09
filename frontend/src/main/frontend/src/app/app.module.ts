@@ -20,6 +20,8 @@ import { UserResolve } from "./user/user.resolve";
 import { GameResolve } from "./game/game.resolve";
 import { GameRankingsComponent } from "./game/rankings/game-rankings.component";
 import { GameRankingsResolve } from "./game/rankings/game-rankings.resolve";
+import { UserDetailsComponent } from "./user/details/user-details.component";
+import { UserDetailsResolve } from "./user/details/user-details.resolve";
 
 const routes: Routes = [
   {
@@ -45,9 +47,19 @@ const routes: Routes = [
     resolve: { rankings: GameRankingsResolve }
   },
   {
+    path: 'games/:gameName/match',
+    component: MatchComponent
+    //canActivate: [ CanActivateAuthGuard ]
+  },
+  {
     path: 'users',
     component: UserComponent,
     resolve: { users: UserResolve }
+  },
+  {
+    path: 'users/:username',
+    component: UserDetailsComponent,
+    resolve: { user: UserDetailsResolve }
   },
   {
     path: '',
@@ -55,11 +67,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
 
-  {
-    path: 'match',
-    component: MatchComponent,
-    canActivate: [ CanActivateAuthGuard ]
-  },
   //TODO add default error page.
   {
     path: 'error',
@@ -76,7 +83,8 @@ const routes: Routes = [
     MatchComponent,
     GameComponent,
     GameRankingsComponent,
-    UserComponent
+    UserComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -94,7 +102,8 @@ const routes: Routes = [
 
     GameResolve,
     GameRankingsResolve,
-    UserResolve
+    UserResolve,
+    UserDetailsResolve
   ],
   bootstrap: [AppComponent]
 })

@@ -14,6 +14,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query(value = "select U from User U where U.name = :username")
 	User findByName(@Param("username") String username);
 	
-	@Query(value = "select M from Player P join P.match M where P.user.name = :username order by M.dateTime desc")
+	@Query(value = "select M from Match M join M.players P where P.user.name = :username order by M.dateTime desc")
 	List<MatchDTO> getUserMatches(@Param("username") String username);
 }

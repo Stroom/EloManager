@@ -29,13 +29,13 @@ public class UserRestController {
 		return userService.getAllUsers();
 	}
 	
-	@GetMapping("/{userName}")
-	public UserDTO getUserByName(@PathVariable String username) {
+	@GetMapping("/{username}")
+	public UserDTO getUserByName(@PathVariable("username") String username) {
 		return userService.getUserByName(username);
 	}
 	
-	@GetMapping("/{userName}/matches")
-	public List<MatchDTO> getUserMatches(@PathVariable String username) {
+	@GetMapping("/{username}/matches")
+	public List<MatchDTO> getUserMatches(@PathVariable("username") String username) {
 		return userService.getUserMatches(username);
 	}
 	

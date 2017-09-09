@@ -25,7 +25,7 @@ public class Match {
 	
 	@ManyToOne
 	private Game game;
-	@OneToMany(mappedBy = "match")
+	@OneToMany
 	private List<Player> players;
 	
 	public Match(Game game) {

@@ -10,12 +10,12 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class RankingDTO {
 	
-	private String userName;
+	private String username;
 	private String gameName;
 	private BigDecimal value;
 	
 	public RankingDTO(Ranking ranking) {
-		this.userName = ranking.getUser().getName();
+		this.username = ranking.getUser().getName();
 		this.gameName = ranking.getGame().getName();
 		this.value = ranking.getValue();
 	}

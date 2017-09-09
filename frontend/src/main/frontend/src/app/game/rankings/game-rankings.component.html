@@ -1,7 +1,8 @@
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript!
     Please enable Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
-  <h2>{{name}} rankings</h2>
+  <h2>{{gameName}}</h2>
+  <a [routerLink]="['/games', gameName, 'match']">Add match results</a>
   <table class="table table-bordered table-striped">
     <thead>
     <tr>
@@ -11,9 +12,10 @@
     </thead>
     <tbody>
     <tr *ngFor="let r of rankings">
-      <td>{{r.userName}}</td>
+      <td>{{r.username}}</td>
       <td>{{r.value}}</td>
     </tr>
     </tbody>
   </table>
+  <div>TODO users should have links too?</div>
 </div>

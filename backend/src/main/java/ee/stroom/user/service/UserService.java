@@ -24,7 +24,7 @@ public class UserService {
 		return userRepository.findAll().stream().map(user -> new UserDTO(user)).sorted(new Comparator<UserDTO>() {
 			@Override
 			public int compare(UserDTO o1, UserDTO o2) {
-				return o1.getUserName().compareTo(o2.getUserName());
+				return o1.getUsername().compareTo(o2.getUsername());
 			}
 		}).collect(Collectors.toList());
 	}

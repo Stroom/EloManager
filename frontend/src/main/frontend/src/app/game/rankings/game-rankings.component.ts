@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthenticationService } from "app/authentication/authentication.service";
-import { GameService } from "../game.service";
-import { Ranking } from "../../definitions";
+import { GameService } from "app/game/game.service";
+import { Ranking } from "app/definitions";
 
 @Component({
   selector: 'game-rankings-component',
@@ -10,7 +10,7 @@ import { Ranking } from "../../definitions";
 })
 export class GameRankingsComponent implements OnInit {
 
-  name: string;
+  gameName: string;
   rankings: Array<Ranking>;
 
   constructor(
@@ -26,11 +26,11 @@ export class GameRankingsComponent implements OnInit {
           this.rankings = data.rankings;
         },
         err => {
-          console.log("Could not retrieve users data.");
+          console.log("Could not retrieve rankings data.");
           this.router.navigateByUrl('error');
         });
     this.route.params.subscribe(params => {
-      this.name = params['gameName'];
+      this.gameName = params['gameName'];
     });
   }
 

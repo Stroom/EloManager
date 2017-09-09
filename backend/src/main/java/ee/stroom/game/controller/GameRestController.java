@@ -33,17 +33,17 @@ public class GameRestController<Game, ID extends Serializable> {
 	}
 	
 	@GetMapping("/{gameName}/matches")
-	public List<MatchDTO> getGameMatches(@PathVariable String gameName) {
+	public List<MatchDTO> getGameMatches(@PathVariable("gameName") String gameName) {
 		return gameService.getGameMatches(gameName);
 	}
 	
 	@GetMapping("/{gameName}/rankings")
-	public List<RankingDTO> getGameRankings(@PathVariable String gameName) {
+	public List<RankingDTO> getGameRankings(@PathVariable("gameName") String gameName) {
 		return gameService.getGameRankings(gameName);
 	}
 	
 	@PostMapping("/{gameName}")
-	public GameDTO addMatch(@PathVariable String gameName, @RequestBody MatchDTO match) {
+	public GameDTO addMatch(@PathVariable("gameName") String gameName, @RequestBody MatchDTO match) {
 		return gameService.addMatch(match);
 	}
 	
@@ -51,7 +51,8 @@ public class GameRestController<Game, ID extends Serializable> {
 	
 	
 	@ExceptionHandler({ NullPointerException.class })
-	public String handleException() {
+	public String handleException(Exception e) {
+		e.printStackTrace();
 		return "Unexpected error";
 	}
 	

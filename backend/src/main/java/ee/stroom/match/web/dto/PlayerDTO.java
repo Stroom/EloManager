@@ -9,11 +9,11 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 public class PlayerDTO {
-	private String userName;
+	private String username;
 	private BigDecimal score;
 	
 	public PlayerDTO(Player player) {
-		this.userName = player.getUser().getName();
+		this.username = player.getUser().getName();
 		this.score = player.getScore();
 	}
 }

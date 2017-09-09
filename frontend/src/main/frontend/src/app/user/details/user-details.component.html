@@ -1,18 +1,18 @@
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript!
     Please enable Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
-  <h2>All users</h2>
+  <h2>{{user.username}}</h2>
   <table class="table table-bordered table-striped">
     <thead>
     <tr>
-      <th class="text-center">Username</th>
-      <th class="text-center">Top 3 rankings</th>
+      <th class="text-center">Game</th>
+      <th class="text-center">Ranking</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let u of users">
-      <td><a [routerLink]="['/users', u.username]">{{u.username}}</a></td>
-      <td><p *ngFor="let r of u.rankings | slice:0:3">{{r.gameName}} - {{r.value}}</p></td>
+    <tr *ngFor="let r of user.rankings">
+      <td>{{r.gameName}}</td>
+      <td>{{r.value}}</td>
     </tr>
     </tbody>
   </table>

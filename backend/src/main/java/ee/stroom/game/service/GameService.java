@@ -45,6 +45,7 @@ public class GameService {
 		this.rankingRepository = rankingRepository;
 		this.playerRepository = playerRepository;
 		this.userRepository = userRepository;
+		this.matchLock = new ReentrantLock();
 	}
 	
 	public List<GameDTO> getAllGames() {
@@ -70,8 +71,9 @@ public class GameService {
 			
 			setMatchData(match, matchDTO, players);
 			
-			matchRepository.save(match);
 			playerRepository.save(players);//TODO order of saves?
+			matchRepository.save(match);
+			
 			
 			updateRankings(game, players);
 		}
@@ -86,9 +88,9 @@ public class GameService {
 	
 	private void setMatchData(Match match, MatchDTO matchDTO, List<Player> players) {
 		for(PlayerDTO playerDTO : matchDTO.getPlayers()) {
-			User user = userRepository.findByName(playerDTO.getUserName());
+			User user = userRepository.findByName(playerDTO.getUsername());
 			if(user == null) {
-				user = userRepository.save(new User(playerDTO.getUserName()));
+				user = userRepository.save(new User(playerDTO.getUsername()));
 			}
 			players.add(new Player(user, playerDTO.getScore()));
 		}

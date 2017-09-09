@@ -14,12 +14,12 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class UserDTO {
 	
-	private String userName;
+	private String username;
 	
 	private List<RankingDTO> rankings;
 	
 	public UserDTO(User user) {
-		this.userName = user.getName();
+		this.username = user.getName();
 		if(user.getRankings() != null && !user.getRankings().isEmpty()) {
 			this.rankings = user.getRankings().stream()
 					.map(ranking -> new RankingDTO(ranking))

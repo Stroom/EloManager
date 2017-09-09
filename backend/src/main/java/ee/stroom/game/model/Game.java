@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Entity
 @Data
@@ -39,6 +40,7 @@ public class Game {
 	/**
 	 * Return 1 if the player wins, 0 if there is a draw and -1 if the opponent wins.
 	 * TODO maybe move it under gameType
+	 * TODO definitely needs testing. Seems broken.
 	 */
 	private Pair<BigDecimal, BigDecimal> decideResult(BigDecimal playerScore, BigDecimal opponentScore) {
 		BigDecimal delta = playerScore.subtract(opponentScore);
@@ -61,8 +63,8 @@ public class Game {
 		BigDecimal playerR = BigDecimalMath.pow(BigDecimal.TEN, playerRanking.getValue().divide(BigDecimal.valueOf(400)));
 		BigDecimal opponentR = BigDecimalMath.pow(BigDecimal.TEN, opponentRanking.getValue().divide(BigDecimal.valueOf(400)));
 		
-		BigDecimal playerE = playerR.divide(playerR.add(opponentR));
-		BigDecimal opponentE = opponentR.divide(playerR.add(opponentR));
+		BigDecimal playerE = playerR.divide(playerR.add(opponentR), RoundingMode.HALF_UP);
+		BigDecimal opponentE = opponentR.divide(playerR.add(opponentR), RoundingMode.HALF_UP);
 		
 		Pair<BigDecimal, BigDecimal> result = decideResult(player.getScore(), opponent.getScore());
 		

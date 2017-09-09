@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthenticationService } from "app/authentication/authentication.service";
 import { GameService } from "./game.service";
-import { Game } from "../definitions";
+import { Game } from "app/definitions";
 
 @Component({
   selector: 'game-component',
@@ -25,7 +25,7 @@ export class GameComponent implements OnInit {
           this.games = data.games;
         },
         err => {
-          console.log("Could not retrieve users data.");
+          console.log("Could not retrieve games data.");
           this.router.navigateByUrl('error');
         });
   }

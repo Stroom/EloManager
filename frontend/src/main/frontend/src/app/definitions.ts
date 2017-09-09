@@ -8,12 +8,12 @@ export class Game {
 }
 
 export class User {
-  userName: string;
+  username: string;
   rankings: Array<Ranking>;
 }
 
 export class Ranking {
-  userName: string;
+  username: string;
   gameName: string;
   value: number;
 }
@@ -21,9 +21,21 @@ export class Ranking {
 export class Match {
   gameName: string;
   players: Array<Player>;
+
+  constructor() {
+    this.gameName = "";
+    this.players = new Array<Player>();
+    this.players[0] = new Player("", 0);
+    this.players[1] = new Player("", 0);
+  }
 }
 
 export class Player {
-  userName: string;
+  username: string;
   score: number;
+
+  constructor(username: string, score:number) {
+    this.username = username;
+    this.score = score;
+  }
 }

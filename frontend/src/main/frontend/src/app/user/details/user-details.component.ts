@@ -5,12 +5,12 @@ import { UserService } from "app/user/user.service";
 import { User } from "app/definitions";
 
 @Component({
-  selector: 'user-component',
-  templateUrl: 'user.component.html'
+  selector: 'user-details-component',
+  templateUrl: 'user-details.component.html'
 })
-export class UserComponent implements OnInit {
+export class UserDetailsComponent implements OnInit {
 
-  users: Array<User>;
+  user: User;
 
   constructor(
     private authentication: AuthenticationService,
@@ -21,11 +21,11 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data
-      .subscribe((data: {users: User[]}) => {
-          this.users = data.users;
+      .subscribe((data: {user: User}) => {
+          this.user = data.user;
         },
         err => {
-          console.log("Could not retrieve users data.");
+          console.log("Could not retrieve user data.");
           this.router.navigateByUrl('error');
         });
   }

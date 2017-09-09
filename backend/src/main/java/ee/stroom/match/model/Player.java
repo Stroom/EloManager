@@ -22,9 +22,6 @@ public class Player {
 	@ManyToOne
 	private User user;
 	
-	@ManyToOne
-	Match match;
-	
 	private BigDecimal score;
 	
 	public Player(User user, BigDecimal score) {

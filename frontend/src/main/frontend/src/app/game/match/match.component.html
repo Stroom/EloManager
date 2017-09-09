@@ -1,5 +1,35 @@
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript!
     Please enable Javascript and reload this page!</h2></noscript>
 <div id="main-content" class="container">
-    Trololo. TEST MATCH PAGE.
+  <h2>{{gameName}} - Match results</h2>
+  <form (ngSubmit)="onSubmit()" #matchForm="ngForm">
+    <div class="form-group">
+      <input type="text" class="form-control" id="name" [(ngModel)]="match.gameName" name="gameName" hidden required>
+    </div>
+
+    <table class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th class="text-center">Player</th>
+        <th class="text-center">Score</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let p of match.players; let i = index" [attr.data-index]="i">
+        <td>
+          <div class="form-group">
+            <input type="text" class="form-control" id="playerName_{{i}}" [(ngModel)]="match.players[i].username" name="playerName_{{i}}" required>
+          </div>
+        </td>
+        <td>
+          <div class="form-group">
+            <input type="text" class="form-control" id="playerScore_{{i}}" [(ngModel)]="match.players[i].score" name="playerScore_{{i}}" required>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-success" [disabled]="!matchForm.form.valid">Submit</button>
+  </form>
 </div>
