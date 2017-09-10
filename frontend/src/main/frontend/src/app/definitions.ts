@@ -18,6 +18,10 @@ export class Ranking {
   value: number;
 }
 
+export class Token {
+  token: string;
+}
+
 export class Match {
   gameName: string;
   players: Array<Player>;

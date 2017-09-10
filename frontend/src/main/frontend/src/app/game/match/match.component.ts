@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthenticationService } from "app/authentication/authentication.service";
 import { MatchService } from "./match.service";
-import { Match, Player } from "../../definitions";
+import { Match, Player, Token } from "../../definitions";
 
 @Component({
   selector: 'match-component',
@@ -10,8 +10,8 @@ import { Match, Player } from "../../definitions";
 })
 export class MatchComponent implements OnInit {
 
+  token: string;
   gameName: string = "";
-
   match: Match;
 
   constructor(
@@ -22,6 +22,14 @@ export class MatchComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.route.data
+      .subscribe((data: {token: Token}) => {
+          this.token = data.token.token;
+        },
+        err => {
+          console.log("Could not retrieve rankings data.");
+          this.router.navigateByUrl('error');
+        });
     this.route.params.subscribe(params => {
       this.gameName = params['gameName'];
       this.match = new Match();
@@ -36,7 +44,7 @@ export class MatchComponent implements OnInit {
     for(var i = 0; i < this.match.players.length; i++){
       this.match.players[i].score = Number(this.match.players[i].score);
     }
-    this.matchService.addMatch(this.match).then(
+    this.matchService.addMatch(this.match, this.token).then(
       response => console.log(response),
       err => console.log("err")
     );

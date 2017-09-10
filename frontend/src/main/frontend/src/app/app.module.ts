@@ -22,6 +22,7 @@ import { GameRankingsComponent } from "./game/rankings/game-rankings.component";
 import { GameRankingsResolve } from "./game/rankings/game-rankings.resolve";
 import { UserDetailsComponent } from "./user/details/user-details.component";
 import { UserDetailsResolve } from "./user/details/user-details.resolve";
+import { TokenResolve } from "./game/match/token.resolve";
 
 const routes: Routes = [
   {
@@ -48,7 +49,8 @@ const routes: Routes = [
   },
   {
     path: 'games/:gameName/match',
-    component: MatchComponent
+    component: MatchComponent,
+    resolve: { token: TokenResolve }
     //canActivate: [ CanActivateAuthGuard ]
   },
   {
@@ -102,6 +104,7 @@ const routes: Routes = [
 
     GameResolve,
     GameRankingsResolve,
+    TokenResolve,
     UserResolve,
     UserDetailsResolve
   ],

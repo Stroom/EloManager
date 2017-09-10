@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http, RequestOptions, Headers } from "@angular/http";
+import { Http, RequestOptions, Headers, URLSearchParams } from "@angular/http";
 import { environment } from "../../../environments/environment";
 import { Game, Match } from "../../definitions";
 
@@ -12,9 +12,15 @@ export class MatchService {
     private http: Http
   ) {}
 
-  addMatch(match: Match): Promise<Game> {
+  addMatch(match: Match, token: string): Promise<Game> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    let params = new URLSearchParams();
+    params.set('token', token);
+    let options = new RequestOptions({
+      headers: headers,
+      params: params
+    });
+    console.log(options);
     return this.http
       .post(environment.BASE_URL + '/api/games/' + match.gameName, JSON.stringify(match), options).toPromise()
       .then(

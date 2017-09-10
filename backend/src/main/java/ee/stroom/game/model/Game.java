@@ -42,7 +42,6 @@ public class Game {
 	/**
 	 * Return 1 if the player wins, 0 if there is a draw and -1 if the opponent wins.
 	 * TODO maybe move it under gameType
-	 * TODO definitely needs testing. Seems broken.
 	 */
 	Pair<BigDecimal, BigDecimal> decideResult(BigDecimal playerScore, BigDecimal opponentScore) {
 		BigDecimal delta = playerScore.subtract(opponentScore);
