@@ -31,7 +31,7 @@ public class Ranking {
 	private Game game;
 	
 	@NotNull
-	@Column(precision = 6, scale = 5)
+	@Column(precision = 11, scale = 5)
 	private BigDecimal value;
 	
 }

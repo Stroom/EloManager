@@ -32,16 +32,15 @@ export class MatchComponent implements OnInit {
   onSubmit(): void {
     //TODO validate inputs and throw errors.
 
-    console.log(this.match);
     //Convert string inputs of scores to numbers
     for(var i = 0; i < this.match.players.length; i++){
       this.match.players[i].score = Number(this.match.players[i].score);
     }
-    console.log(this.match);
     this.matchService.addMatch(this.match).then(
       response => console.log(response),
       err => console.log("err")
     );
+    //TODO redirect.
   }
 
 }

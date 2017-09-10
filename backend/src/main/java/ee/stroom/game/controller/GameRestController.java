@@ -44,6 +44,7 @@ public class GameRestController<Game, ID extends Serializable> {
 	
 	@PostMapping("/{gameName}")
 	public GameDTO addMatch(@PathVariable("gameName") String gameName, @RequestBody MatchDTO match) {
+		//TODO some prevention against double-entry?
 		return gameService.addMatch(match);
 	}
 	
