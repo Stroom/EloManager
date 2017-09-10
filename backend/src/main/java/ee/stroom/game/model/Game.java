@@ -37,18 +37,20 @@ public class Game {
 		return gameType.getInitialRanking();
 	}
 	
+	//TODO these are gameService methods? Maybe should be implemented under gametype? Maybe game needs a rankingtype and that is implemented there?
+	
 	/**
 	 * Return 1 if the player wins, 0 if there is a draw and -1 if the opponent wins.
 	 * TODO maybe move it under gameType
 	 * TODO definitely needs testing. Seems broken.
 	 */
-	private Pair<BigDecimal, BigDecimal> decideResult(BigDecimal playerScore, BigDecimal opponentScore) {
+	Pair<BigDecimal, BigDecimal> decideResult(BigDecimal playerScore, BigDecimal opponentScore) {
 		BigDecimal delta = playerScore.subtract(opponentScore);
 		int result = delta.compareTo(BigDecimal.ZERO);
 		if(result > 0) {
-			return new Pair<>(BigDecimal.valueOf(1), BigDecimal.valueOf(-1));
+			return new Pair<>(BigDecimal.valueOf(1), BigDecimal.valueOf(0));
 		} else if(result < 0) {
-			return new Pair<>(BigDecimal.valueOf(-1), BigDecimal.valueOf(1));
+			return new Pair<>(BigDecimal.valueOf(0), BigDecimal.valueOf(1));
 		} else {
 			return new Pair<>(BigDecimal.valueOf(0.5), BigDecimal.valueOf(0.5));
 		}
@@ -60,18 +62,29 @@ public class Game {
 	 * Taken from https://dataskeptic.com/blog/methods/2017/calculating-an-elo-rating
 	 */
 	public Pair<BigDecimal,BigDecimal> calculateRankingDeltas(Player player, Player opponent, Ranking playerRanking, Ranking opponentRanking) {
-		BigDecimal playerR = BigDecimalMath.pow(BigDecimal.TEN, playerRanking.getValue().divide(BigDecimal.valueOf(400)));
-		BigDecimal opponentR = BigDecimalMath.pow(BigDecimal.TEN, opponentRanking.getValue().divide(BigDecimal.valueOf(400)));
+		BigDecimal playerR = BigDecimalMath.pow(BigDecimal.valueOf(10.0).setScale(8),
+				playerRanking.getValue().setScale(8).divide(BigDecimal.valueOf(400.0).setScale(8), 8, RoundingMode.HALF_UP)).setScale(8);
+		BigDecimal opponentR = BigDecimalMath.pow(BigDecimal.valueOf(10.0).setScale(8),
+				opponentRanking.getValue().setScale(8).divide(BigDecimal.valueOf(400.0).setScale(8), 8, RoundingMode.HALF_UP)).setScale(8);
 		
-		BigDecimal playerE = playerR.divide(playerR.add(opponentR), RoundingMode.HALF_UP);
-		BigDecimal opponentE = opponentR.divide(playerR.add(opponentR), RoundingMode.HALF_UP);
+		double playerRS = playerR.doubleValue();
+		double opponentRS = opponentR.doubleValue();
+		
+		BigDecimal playerE = playerR.divide(playerR.add(opponentR), 8, RoundingMode.HALF_UP);
+		BigDecimal opponentE = opponentR.divide(playerR.add(opponentR), 8, RoundingMode.HALF_UP);
+		
+		double playerES = playerE.doubleValue();
+		double opponentES = opponentE.doubleValue();
 		
 		Pair<BigDecimal, BigDecimal> result = decideResult(player.getScore(), opponent.getScore());
 		
 		BigDecimal playerDelta = gameType.getScalingValue().multiply(result.getValue0().subtract(playerE));
 		BigDecimal opponentDelta = gameType.getScalingValue().multiply(result.getValue1().subtract(opponentE));
 		
-		return new Pair<BigDecimal, BigDecimal>(playerDelta, opponentDelta);
+		double playerDS = playerDelta.doubleValue();
+		double opponentDS = opponentDelta.doubleValue();
+		
+		return new Pair<BigDecimal, BigDecimal>(playerDelta.setScale(5, RoundingMode.HALF_UP), opponentDelta.setScale(5, RoundingMode.HALF_UP));
 	}
 	
 }
