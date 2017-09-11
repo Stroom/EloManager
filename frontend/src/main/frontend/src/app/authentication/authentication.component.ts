@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
-import { AuthenticationService } from "app/authentication/authentication.service";
+import {Component, OnInit} from "@angular/core";
+import {Router} from "@angular/router";
+import {AuthenticationService} from "app/authentication/authentication.service";
 
 @Component({
   selector: 'login',
@@ -12,7 +12,10 @@ export class AuthenticationComponent implements OnInit {
   password: string = "";
   error: string = "";
 
-  constructor(private authentication: AuthenticationService, private router: Router) {}
+  constructor(
+    private authentication: AuthenticationService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     if(this.authentication.isLoggedIn()) {
@@ -30,7 +33,7 @@ export class AuthenticationComponent implements OnInit {
         else {
           this.error = "Username or password is incorrect";
         }
-      }, 
+      },
       err => {
         this.error = "Username or password is incorrect";
       }

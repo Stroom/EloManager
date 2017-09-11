@@ -1,4 +1,4 @@
-package ee.stroom;
+package ee.stroom.configuration;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -10,7 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 
 @Configuration
 @EnableCaching
-public class CacheConfig {
+public class CacheConfiguration {
 	
 	@Bean(name = "ehCacheManager")
 	public CacheManager getEhCacheManager(){

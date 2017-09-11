@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
-import { AuthenticationService } from "app/authentication/authentication.service";
-import { MatchService } from "./match.service";
-import { Match, Player, Token } from "../../definitions";
+import {Component, OnInit } from '@angular/core';
+import {ActivatedRoute, Router } from "@angular/router";
+import {AuthenticationService} from "app/authentication/authentication.service";
+import {MatchService} from "./match.service";
+import {Match, Token} from "../../definitions";
 
 @Component({
   selector: 'match-component',
@@ -45,10 +45,13 @@ export class MatchComponent implements OnInit {
       this.match.players[i].score = Number(this.match.players[i].score);
     }
     this.matchService.addMatch(this.match, this.token).then(
-      response => console.log(response),
+      response => this.redirectToGameRankings(),
       err => console.log("err")
     );
-    //TODO redirect.
+  }
+
+  private redirectToGameRankings() {
+    this.router.navigateByUrl('games/' + this.gameName + '/rankings');
   }
 
 }

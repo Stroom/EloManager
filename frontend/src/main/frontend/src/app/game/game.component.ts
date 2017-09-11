@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
-import { AuthenticationService } from "app/authentication/authentication.service";
-import { GameService } from "./game.service";
-import { Game } from "app/definitions";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {AuthenticationService} from "app/authentication/authentication.service";
+import {GameService} from "./game.service";
+import {Game} from "app/definitions";
 
 @Component({
   selector: 'game-component',

@@ -1,6 +1,6 @@
-package ee.stroom.user.web.dto;
+package ee.stroom.user.model.dto;
 
-import ee.stroom.ranking.web.dto.RankingDTO;
+import ee.stroom.ranking.model.dto.RankingDTO;
 import ee.stroom.user.model.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;

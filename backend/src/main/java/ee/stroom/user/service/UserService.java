@@ -1,8 +1,8 @@
 package ee.stroom.user.service;
 
-import ee.stroom.match.web.dto.MatchDTO;
+import ee.stroom.match.model.dto.MatchDTO;
 import ee.stroom.user.model.UserRepository;
-import ee.stroom.user.web.dto.UserDTO;
+import ee.stroom.user.model.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

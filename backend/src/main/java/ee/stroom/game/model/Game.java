@@ -66,22 +66,13 @@ public class Game {
 		BigDecimal opponentR = BigDecimalMath.pow(BigDecimal.valueOf(10.0).setScale(8),
 				opponentRanking.getValue().setScale(8).divide(BigDecimal.valueOf(400.0).setScale(8), 8, RoundingMode.HALF_UP)).setScale(8);
 		
-		double playerRS = playerR.doubleValue();
-		double opponentRS = opponentR.doubleValue();
-		
 		BigDecimal playerE = playerR.divide(playerR.add(opponentR), 8, RoundingMode.HALF_UP);
 		BigDecimal opponentE = opponentR.divide(playerR.add(opponentR), 8, RoundingMode.HALF_UP);
-		
-		double playerES = playerE.doubleValue();
-		double opponentES = opponentE.doubleValue();
 		
 		Pair<BigDecimal, BigDecimal> result = decideResult(player.getScore(), opponent.getScore());
 		
 		BigDecimal playerDelta = gameType.getScalingValue().multiply(result.getValue0().subtract(playerE));
 		BigDecimal opponentDelta = gameType.getScalingValue().multiply(result.getValue1().subtract(opponentE));
-		
-		double playerDS = playerDelta.doubleValue();
-		double opponentDS = opponentDelta.doubleValue();
 		
 		return new Pair<BigDecimal, BigDecimal>(playerDelta.setScale(5, RoundingMode.HALF_UP), opponentDelta.setScale(5, RoundingMode.HALF_UP));
 	}

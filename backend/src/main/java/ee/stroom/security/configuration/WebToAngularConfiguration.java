@@ -1,4 +1,4 @@
-package ee.stroom;
+package ee.stroom.security.configuration;
 
 import org.springframework.boot.autoconfigure.web.ErrorViewResolver;
 import org.springframework.context.annotation.Bean;
@@ -11,9 +11,8 @@ import java.util.Collections;
 import java.util.Map;
 
 @Configuration
-public class WebToAngularConfig {
+public class WebToAngularConfiguration {
 	//https://stackoverflow.com/questions/38516667/springboot-angular2-how-to-handle-html5-urls
-	//TODO not sure if needed
 	@Bean
 	ErrorViewResolver supportPathBasedLocationStrategyWithoutHashes() {
 		return new ErrorViewResolver() {

@@ -1,20 +1,22 @@
-import { Injectable } from "@angular/core";
-import { Http, Headers, Response } from "@angular/http";
-import { Observable } from "rxjs/Observable";
-import { environment } from "environments/environment";
+import {Injectable} from "@angular/core";
+import {Http, Headers, Response} from "@angular/http";
+import {Observable} from "rxjs/Observable";
+import {environment} from "environments/environment";
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/toPromise';
-import { LoginResponse } from "app/definitions";
+import {LoginResponse} from "app/definitions";
 
 @Injectable()
 export class AuthenticationService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
 
-  constructor(private http: Http) {}
+  constructor(
+    private http: Http
+  ) {}
 
   authenticate(username: string, password: string): Observable<boolean> {
     return this.http.post(environment.BASE_URL + '/auth/login', JSON.stringify({username: username, password: password}), {headers: this.headers})
@@ -22,13 +24,13 @@ export class AuthenticationService {
         let response: LoginResponse = res.json();
         let token = response.token;
           if(token) {
-            localStorage.setItem('LoveLetterUser', JSON.stringify({username: username, token: token}));
+            localStorage.setItem('EloManagerUser', JSON.stringify({username: username, token: token}));
           }
           else {
-            localStorage.removeItem('LoveLetterRoles');
+            localStorage.removeItem('EloManagerRoles');
             return false;
           }
-          localStorage.setItem('LoveLetterRoles', JSON.stringify({roles: response.authorities}));
+          localStorage.setItem('EloManagerRoles', JSON.stringify({roles: response.authorities}));
           return true;
         },
         err => null)
@@ -42,7 +44,7 @@ export class AuthenticationService {
     });
     return this.http.get(environment.BASE_URL + '/auth/roles', {headers: headers}).toPromise().then(res => {
       let roles: string[] = res.json();
-      localStorage.setItem('LoveLetterRoles', JSON.stringify({roles: roles}));
+      localStorage.setItem('EloManagerRoles', JSON.stringify({roles: roles}));
       return true;
     });
   }
@@ -53,23 +55,23 @@ export class AuthenticationService {
   }
 
   getToken(): string {
-    var currentUser = JSON.parse(localStorage.getItem('LoveLetterUser'));
+    var currentUser = JSON.parse(localStorage.getItem('EloManagerUser'));
     var token = currentUser && currentUser.token;
     return token ? token : "";
   }
 
   getRoles(): string[] {
-    var container = JSON.parse(localStorage.getItem('LoveLetterRoles'));
+    var container = JSON.parse(localStorage.getItem('EloManagerRoles'));
     var roles = container && container.roles;
     return roles ? roles : null;
   }
 
   hasToken(): boolean {
-    return localStorage.getItem('LoveLetterUser') != null;
+    return localStorage.getItem('EloManagerUser') != null;
   }
 
   hasRoles(): boolean {
-    return localStorage.getItem('LoveLetterRoles') != null;
+    return localStorage.getItem('EloManagerRoles') != null;
   }
 
   hasRole(roles: string[]): boolean {
@@ -80,8 +82,8 @@ export class AuthenticationService {
   }
 
   logout(): void {
-    localStorage.removeItem('LoveLetterUser');
-    localStorage.removeItem('LoveLetterRoles');
+    localStorage.removeItem('EloManagerUser');
+    localStorage.removeItem('EloManagerRoles');
     this.http.post(environment.BASE_URL + '/auth/logout', JSON.stringify({}), {headers: this.headers}).toPromise()
       .then(res => res)
       .catch((error:any) => this.handleError(error));

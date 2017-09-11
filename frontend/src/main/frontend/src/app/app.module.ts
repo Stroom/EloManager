@@ -1,28 +1,28 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
-import { Routes, RouterModule } from "@angular/router";
-import { FormsModule } from "@angular/forms";
-import { HttpModule } from "@angular/http";
-import { HomeComponent } from "./home.component";
-import { AuthenticationComponent } from "./authentication/authentication.component";
-import { AuthenticationService } from "./authentication/authentication.service";
-import { CanActivateAuthGuard } from "./authentication/can-activate.authguard";
-import { UserComponent } from "./user/user.component";
-import { UserService } from "./user/user.service";
-import { MatchComponent } from "./game/match/match.component";
-import { MatchService } from "./game/match/match.service";
-import { GameComponent } from "./game/game.component";
-import { GameService } from "./game/game.service";
-import { RegistrationComponent } from "./authentication/registration/registration.component";
-import { UserResolve } from "./user/user.resolve";
-import { GameResolve } from "./game/game.resolve";
-import { GameRankingsComponent } from "./game/rankings/game-rankings.component";
-import { GameRankingsResolve } from "./game/rankings/game-rankings.resolve";
-import { UserDetailsComponent } from "./user/details/user-details.component";
-import { UserDetailsResolve } from "./user/details/user-details.resolve";
-import { TokenResolve } from "./game/match/token.resolve";
+import {AppComponent} from './app.component';
+import {Routes, RouterModule} from "@angular/router";
+import {FormsModule} from "@angular/forms";
+import {HttpModule} from "@angular/http";
+import {HomeComponent} from "./home.component";
+import {AuthenticationComponent} from "./authentication/authentication.component";
+import {AuthenticationService} from "./authentication/authentication.service";
+import {CanActivateAuthGuard} from "./authentication/can-activate.authguard";
+import {UserComponent} from "./user/user.component";
+import {UserService} from "./user/user.service";
+import {MatchComponent} from "./game/match/match.component";
+import {MatchService} from "./game/match/match.service";
+import {GameComponent} from "./game/game.component";
+import {GameService} from "./game/game.service";
+import {RegistrationComponent} from "./authentication/registration/registration.component";
+import {UserResolve} from "./user/user.resolve";
+import {GameResolve} from "./game/game.resolve";
+import {GameRankingsComponent} from "./game/rankings/game-rankings.component";
+import {GameRankingsResolve} from "./game/rankings/game-rankings.resolve";
+import {UserDetailsComponent} from "./user/details/user-details.component";
+import {UserDetailsResolve} from "./user/details/user-details.resolve";
+import {TokenResolve} from "./game/match/token.resolve";
 
 const routes: Routes = [
   {
@@ -50,8 +50,8 @@ const routes: Routes = [
   {
     path: 'games/:gameName/match',
     component: MatchComponent,
-    resolve: { token: TokenResolve }
-    //canActivate: [ CanActivateAuthGuard ]
+    resolve: { token: TokenResolve },
+    canActivate: [ CanActivateAuthGuard ]
   },
   {
     path: 'users',

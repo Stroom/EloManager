@@ -1,8 +1,8 @@
 package ee.stroom.user.controller;
 
-import ee.stroom.match.web.dto.MatchDTO;
+import ee.stroom.match.model.dto.MatchDTO;
+import ee.stroom.user.model.dto.UserDTO;
 import ee.stroom.user.service.UserService;
-import ee.stroom.user.web.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

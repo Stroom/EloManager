@@ -1,4 +1,4 @@
-package ee.stroom.ranking.web.dto;
+package ee.stroom.ranking.model.dto;
 
 import ee.stroom.ranking.model.Ranking;
 import lombok.Data;

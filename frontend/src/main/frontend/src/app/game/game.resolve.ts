@@ -1,15 +1,19 @@
-import { Injectable } from '@angular/core';
-import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { Http, RequestOptions } from "@angular/http";
+import {Injectable} from '@angular/core';
+import {Router, Resolve, ActivatedRouteSnapshot} from '@angular/router';
+import {Http, RequestOptions} from "@angular/http";
 
 import 'rxjs/add/operator/toPromise';
 
-import { Game } from "app/definitions";
-import { environment } from "../../environments/environment";
+import {Game} from "app/definitions";
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class GameResolve implements Resolve<Promise<Array<Game>> | boolean> {
-  constructor(private router: Router, private http: Http) { }
+
+  constructor(
+    private router: Router,
+    private http: Http
+  ) { }
 
   games: Array<Game>;
 

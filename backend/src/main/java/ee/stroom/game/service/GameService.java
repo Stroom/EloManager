@@ -2,25 +2,24 @@ package ee.stroom.game.service;
 
 import ee.stroom.game.model.Game;
 import ee.stroom.game.model.GameRepository;
+import ee.stroom.game.model.dto.GameDTO;
+import ee.stroom.game.model.dto.TokenDTO;
 import ee.stroom.game.service.exception.TokenExpiredException;
-import ee.stroom.game.web.dto.GameDTO;
-import ee.stroom.game.web.dto.TokenDTO;
 import ee.stroom.match.model.Match;
 import ee.stroom.match.model.MatchRepository;
 import ee.stroom.match.model.Player;
 import ee.stroom.match.model.PlayerRepository;
-import ee.stroom.match.web.dto.MatchDTO;
-import ee.stroom.match.web.dto.PlayerDTO;
+import ee.stroom.match.model.dto.MatchDTO;
+import ee.stroom.match.model.dto.PlayerDTO;
 import ee.stroom.ranking.model.Ranking;
 import ee.stroom.ranking.model.RankingRepository;
-import ee.stroom.ranking.web.dto.RankingDTO;
+import ee.stroom.ranking.model.dto.RankingDTO;
 import ee.stroom.user.model.User;
 import ee.stroom.user.model.UserRepository;
 import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -58,15 +57,15 @@ public class GameService {
 	}
 	
 	public List<GameDTO> getAllGames() {
-		return gameRepository.findAll().stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+		return gameRepository.findAll().stream().map(GameDTO::new).collect(Collectors.toList());
 	}
 	
 	public List<MatchDTO> getGameMatches(String gameName) {
-		return gameRepository.getGameMatches(gameName).stream().map(match -> new MatchDTO(match)).collect(Collectors.toList());
+		return gameRepository.getGameMatches(gameName).stream().map(MatchDTO::new).collect(Collectors.toList());
 	}
 	
 	public List<RankingDTO> getGameRankings(String gameName) {
-		return gameRepository.getGameRankings(gameName).stream().map(ranking -> new RankingDTO(ranking)).collect(Collectors.toList());
+		return gameRepository.getGameRankings(gameName).stream().map(RankingDTO::new).collect(Collectors.toList());
 	}
 	
 	public TokenDTO getMatchToken() {
@@ -75,19 +74,19 @@ public class GameService {
 		return new TokenDTO(token);
 	}
 	
-	public void setToken(String token) {
-		((EhCacheCacheManager) cacheManager).getCache("tokencache").put(token, token);
+	private void setToken(String token) {
+		cacheManager.getCache("tokencache").put(token, token);
 	}
 	
-	public void removeToken(String token) {
-		((EhCacheCacheManager) cacheManager).getCache("tokencache").evict(token);
+	private void removeToken(String token) {
+		cacheManager.getCache("tokencache").evict(token);
 	}
 	
 	public GameDTO addMatch(MatchDTO matchDTO, String token) {
 		matchLock.lock();
-		Game game = null;
+		Game game;
 		try {
-			Cache.ValueWrapper wrapper = ((EhCacheCacheManager) cacheManager).getCache("tokencache").get(token);
+			Cache.ValueWrapper wrapper = cacheManager.getCache("tokencache").get(token);
 			if (wrapper != null) {
 				removeToken(token);
 			}
@@ -97,11 +96,11 @@ public class GameService {
 			//TODO validation
 			game = gameRepository.getGameByName(matchDTO.getGameName());
 			Match match = new Match(game);
-			List<Player> players = new ArrayList<Player>();
+			List<Player> players = new ArrayList<>();
 			
 			setMatchData(match, matchDTO, players);
 			
-			playerRepository.save(players);//TODO order of saves?
+			playerRepository.save(players);
 			matchRepository.save(match);
 			
 			
@@ -128,7 +127,7 @@ public class GameService {
 	}
 	
 	private void updateRankings(Game game, List<Player> players) {
-		Map<Ranking, BigDecimal> rankingDeltas = new HashMap<Ranking, BigDecimal>();
+		Map<Ranking, BigDecimal> rankingDeltas = new HashMap<>();
 		//For each player calculate delta vs each other player and add it to current total.
 		for(int i = 0; i < players.size()-1; i++) {
 			Player player = players.get(i);
@@ -138,7 +137,7 @@ public class GameService {
 			}
 			for(int j = i+1; j < players.size(); j++) {
 				Player opponent = players.get(j);
-				if(player.getUser().getUserId() != opponent.getUser().getUserId()) {//TODO maybe just compare objects.
+				if(!player.getUser().getUserId().equals(opponent.getUser().getUserId())) {//TODO maybe just compare objects.
 					Ranking opponentRanking = rankingRepository.getUserGameRanking(opponent.getUser().getName(), game.getName());
 					if(opponentRanking == null) {
 						opponentRanking = setNewRanking(game, opponent.getUser());

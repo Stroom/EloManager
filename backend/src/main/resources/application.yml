@@ -1,0 +1,10 @@
+
+jwt:
+  header: Authorization
+  socket: jwt
+  secret: elomanagerSecret
+  expiration: 604800
+  route:
+    authentication:
+      path: auth
+      refresh: refresh

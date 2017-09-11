@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthenticationService} from "./authentication/authentication.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -9,7 +9,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class AppComponent {
   title = 'Elo Manager';
 
-  constructor(private authentication: AuthenticationService, private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private authentication: AuthenticationService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     if(this.authentication.isLoggedIn() && !this.authentication.hasRoles()) {

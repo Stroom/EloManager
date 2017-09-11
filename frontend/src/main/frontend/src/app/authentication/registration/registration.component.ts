@@ -1,6 +1,6 @@
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
-import { AuthenticationService } from "app/authentication/authentication.service";
+import {Component} from "@angular/core";
+import {Router} from "@angular/router";
+import {AuthenticationService} from "app/authentication/authentication.service";
 
 @Component({
   selector: 'register',
@@ -11,7 +11,10 @@ export class RegistrationComponent {
   username: string;
   password: string;
 
-  constructor(private authentication: AuthenticationService, private router: Router) {}
+  constructor(
+    private authentication: AuthenticationService,
+    private router: Router
+  ) {}
 
   register() {
     this.authentication.register(this.username, this.password).subscribe(res => this.successfulRegister());

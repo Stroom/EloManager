@@ -1,4 +1,4 @@
-package ee.stroom.game.web.dto;
+package ee.stroom.game.model.dto;
 
 import ee.stroom.game.model.Game;
 import lombok.Data;

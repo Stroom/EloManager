@@ -1,15 +1,19 @@
-import { Injectable } from '@angular/core';
-import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { Http, RequestOptions } from "@angular/http";
+import {Injectable} from '@angular/core';
+import {Router, Resolve, ActivatedRouteSnapshot} from '@angular/router';
+import {Http, RequestOptions} from "@angular/http";
 
 import 'rxjs/add/operator/toPromise';
 
-import { User } from "app/definitions";
+import {User} from "app/definitions";
 import {environment} from "../../../environments/environment";
 
 @Injectable()
 export class UserDetailsResolve implements Resolve<Promise<User> | boolean> {
-  constructor(private router: Router, private http: Http) { }
+
+  constructor(
+    private router: Router,
+    private http: Http
+  ) { }
 
   user: User;
 

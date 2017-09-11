@@ -1,15 +1,20 @@
-import { Injectable } from '@angular/core';
-import { Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
-import { Http, RequestOptions } from "@angular/http";
+import {Injectable } from '@angular/core';
+import {Router, Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import {Http, RequestOptions, Headers } from "@angular/http";
 
 import 'rxjs/add/operator/toPromise';
 
-import { Token } from "app/definitions";
-import { environment } from "../../../environments/environment";
+import {Token } from "app/definitions";
+import {environment } from "../../../environments/environment";
+import {AuthenticationService} from "../../authentication/authentication.service";
 
 @Injectable()
 export class TokenResolve implements Resolve<Promise<Token> | boolean> {
-  constructor(private router: Router, private http: Http) { }
+  constructor(
+    private router: Router,
+    private http: Http,
+    private authenticationService: AuthenticationService
+  ) { }
 
   token: Token;
 
@@ -33,8 +38,15 @@ export class TokenResolve implements Resolve<Promise<Token> | boolean> {
   }
 
   getToken(gameName: string): Promise<Token> {
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': this.authenticationService.getToken()
+    });
+    let options = new RequestOptions({
+      headers: headers
+    });
     return this.http
-      .get(environment.BASE_URL + '/api/games/' + gameName + '/token').toPromise()
+      .get(environment.BASE_URL + '/api/games/' + gameName + '/token', options).toPromise()
       .then(
         response => response.json(),
         err => null

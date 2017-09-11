@@ -1,12 +1,13 @@
 package ee.stroom.game.controller;
 
+import ee.stroom.game.model.dto.GameDTO;
+import ee.stroom.game.model.dto.TokenDTO;
 import ee.stroom.game.service.GameService;
 import ee.stroom.game.service.exception.TokenExpiredException;
-import ee.stroom.game.web.dto.GameDTO;
-import ee.stroom.game.web.dto.TokenDTO;
-import ee.stroom.match.web.dto.MatchDTO;
-import ee.stroom.ranking.web.dto.RankingDTO;
+import ee.stroom.match.model.dto.MatchDTO;
+import ee.stroom.ranking.model.dto.RankingDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,9 +59,12 @@ public class GameRestController<Game, ID extends Serializable> {
 	
 	@PostMapping("/{gameName}")
 	@ResponseStatus(HttpStatus.OK)
+	@PreAuthorize("hasRole('ADMIN')")
 	public GameDTO addMatch(@PathVariable("gameName") String gameName, @RequestParam(value = "token", required = true) String token, @RequestBody MatchDTO match) {
 		return gameService.addMatch(match, token);
 	}
+	
+	
 	
 	
 	@ExceptionHandler({ TokenExpiredException.class })

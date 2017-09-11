@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
-import { AuthenticationService } from "app/authentication/authentication.service";
-import { UserService } from "app/user/user.service";
-import { User } from "app/definitions";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
+import {AuthenticationService} from "app/authentication/authentication.service";
+import {UserService} from "app/user/user.service";
+import {User} from "app/definitions";
 
 @Component({
   selector: 'user-component',

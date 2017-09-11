@@ -1,4 +1,4 @@
-package ee.stroom.match.web.dto;
+package ee.stroom.match.model.dto;
 
 import ee.stroom.match.model.Match;
 import lombok.Data;

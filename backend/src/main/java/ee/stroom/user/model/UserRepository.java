@@ -1,6 +1,6 @@
 package ee.stroom.user.model;
 
-import ee.stroom.match.web.dto.MatchDTO;
+import ee.stroom.match.model.dto.MatchDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
