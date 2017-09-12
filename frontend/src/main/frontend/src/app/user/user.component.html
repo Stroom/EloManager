@@ -12,9 +12,12 @@
     <tbody>
     <tr *ngFor="let u of users">
       <td><a [routerLink]="['/users', u.username]">{{u.username}}</a></td>
-      <td><p *ngFor="let r of u.rankings | slice:0:3">{{r.gameName}} - {{r.value}}</p></td>
+      <td>
+        <p *ngFor="let r of u.rankings | slice:0:3">
+          <a [routerLink]="['/games', r.gameName, 'rankings']">{{r.gameName}}</a> - {{r.value | round}}
+        </p>
+      </td>
     </tr>
     </tbody>
   </table>
-  <div>TODO games should have links too?</div>
 </div>

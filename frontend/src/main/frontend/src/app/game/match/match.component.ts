@@ -15,7 +15,7 @@ export class MatchComponent implements OnInit {
   match: Match;
 
   constructor(
-    private authentication: AuthenticationService,
+    private authenticationService: AuthenticationService,
     private matchService: MatchService,
     private route: ActivatedRoute,
     private router: Router
@@ -38,8 +38,6 @@ export class MatchComponent implements OnInit {
   }
 
   onSubmit(): void {
-    //TODO validate inputs and throw errors.
-
     //Convert string inputs of scores to numbers
     for(var i = 0; i < this.match.players.length; i++){
       this.match.players[i].score = Number(this.match.players[i].score);

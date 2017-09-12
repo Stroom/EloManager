@@ -13,8 +13,8 @@ export class GameComponent implements OnInit {
   games: Array<Game>;
 
   constructor(
-    private authentication: AuthenticationService,
-    private userService: GameService,
+    private authenticationService: AuthenticationService,
+    private gameService: GameService,
     private route: ActivatedRoute,
     private router: Router
   ) {}

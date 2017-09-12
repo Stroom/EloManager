@@ -74,7 +74,7 @@ public class Game {
 		BigDecimal playerDelta = gameType.getScalingValue().multiply(result.getValue0().subtract(playerE));
 		BigDecimal opponentDelta = gameType.getScalingValue().multiply(result.getValue1().subtract(opponentE));
 		
-		return new Pair<BigDecimal, BigDecimal>(playerDelta.setScale(5, RoundingMode.HALF_UP), opponentDelta.setScale(5, RoundingMode.HALF_UP));
+		return new Pair<BigDecimal, BigDecimal>(playerDelta, opponentDelta);
 	}
 	
 }

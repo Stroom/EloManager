@@ -68,13 +68,13 @@ public class GameService {
 		return gameRepository.getGameRankings(gameName).stream().map(RankingDTO::new).collect(Collectors.toList());
 	}
 	
-	public TokenDTO getMatchToken() {
+	public TokenDTO getActionToken() {
 		String token = UUID.randomUUID().toString();
-		setToken(token);
+		addToken(token);
 		return new TokenDTO(token);
 	}
 	
-	private void setToken(String token) {
+	private void addToken(String token) {
 		cacheManager.getCache("tokencache").put(token, token);
 	}
 	
@@ -86,33 +86,46 @@ public class GameService {
 		matchLock.lock();
 		Game game;
 		try {
-			Cache.ValueWrapper wrapper = cacheManager.getCache("tokencache").get(token);
-			if (wrapper != null) {
-				removeToken(token);
-			}
-			else {
-				throw new TokenExpiredException("Token was not found");
-			}
+			tryToRemoveToken(token);
+			
 			//TODO validation
 			game = gameRepository.getGameByName(matchDTO.getGameName());
+			if(game == null) {
+				throw new NullPointerException("Game not found. Match not added.");
+			}
+			
 			Match match = new Match(game);
 			List<Player> players = new ArrayList<>();
-			
 			setMatchData(match, matchDTO, players);
-			
 			playerRepository.save(players);
 			matchRepository.save(match);
 			
+			Map<Player, Ranking> playerRankings = new HashMap<>();
+			setPlayerRankings(playerRankings, game, players);
 			
-			updateRankings(game, players);
+			createUpdatedRankings(game, playerRankings);
+			
+			//Some parsing and saving into database is done separately so the same method could be used again
+			//for recalculating all game's matches which needs more precision.
+			for(Ranking ranking : playerRankings.values()) {
+				ranking.setValue(ranking.getValue().setScale(5, BigDecimal.ROUND_UP));
+				rankingRepository.save(ranking);
+			}
 		}
 		finally {
 			matchLock.unlock();
 		}
-		if(game == null) {
-			throw new NullPointerException("Match not added");
-		}
 		return new GameDTO(game);
+	}
+	
+	private void tryToRemoveToken(String token) {
+		Cache.ValueWrapper wrapper = cacheManager.getCache("tokencache").get(token);
+		if (wrapper != null) {
+			removeToken(token);
+		}
+		else {
+			throw new TokenExpiredException("Token was not found");
+		}
 	}
 	
 	private void setMatchData(Match match, MatchDTO matchDTO, List<Player> players) {
@@ -123,36 +136,44 @@ public class GameService {
 			}
 			players.add(new Player(user, playerDTO.getScore()));
 		}
+		//TODO check that there are no duplicate players.
 		match.setPlayers(players);
 	}
 	
-	private void updateRankings(Game game, List<Player> players) {
+	private void setPlayerRankings(Map<Player, Ranking> playerRankings, Game game, List<Player> players) {
+		for(Player player : players) {
+			Ranking ranking = rankingRepository.getUserGameRanking(player.getUser().getName(), game.getName());
+			if(ranking == null) {
+				ranking = setNewRanking(game, player.getUser());
+			}
+			playerRankings.put(player, ranking);
+		}
+	}
+	
+	private void createUpdatedRankings(Game game, Map<Player, Ranking> playerRankings) {
 		Map<Ranking, BigDecimal> rankingDeltas = new HashMap<>();
 		//For each player calculate delta vs each other player and add it to current total.
+		List<Player> players = new ArrayList<>(playerRankings.keySet());
 		for(int i = 0; i < players.size()-1; i++) {
 			Player player = players.get(i);
-			Ranking playerRanking = rankingRepository.getUserGameRanking(player.getUser().getName(), game.getName());
-			if(playerRanking == null) {
-				playerRanking = setNewRanking(game, player.getUser());
-			}
+			Ranking playerRanking = playerRankings.get(player);
 			for(int j = i+1; j < players.size(); j++) {
 				Player opponent = players.get(j);
 				if(!player.getUser().getUserId().equals(opponent.getUser().getUserId())) {//TODO maybe just compare objects.
-					Ranking opponentRanking = rankingRepository.getUserGameRanking(opponent.getUser().getName(), game.getName());
-					if(opponentRanking == null) {
-						opponentRanking = setNewRanking(game, opponent.getUser());
-					}
+					Ranking opponentRanking = playerRankings.get(opponent);
+					
 					Pair<BigDecimal, BigDecimal> deltas = game.calculateRankingDeltas(player, opponent, playerRanking, opponentRanking);
 					
-					rankingDeltas.put(playerRanking, rankingDeltas.getOrDefault(player, BigDecimal.ZERO).add(deltas.getValue0()));
-					rankingDeltas.put(opponentRanking, rankingDeltas.getOrDefault(player, BigDecimal.ZERO).add(deltas.getValue1()));
+					rankingDeltas.put(playerRanking, rankingDeltas.getOrDefault(playerRanking, BigDecimal.ZERO).add(deltas.getValue0()));
+					rankingDeltas.put(opponentRanking, rankingDeltas.getOrDefault(opponentRanking, BigDecimal.ZERO).add(deltas.getValue1()));
 				}
 			}
 		}
 		//Based on deltas list add it to each players ranking and update the current rankings of all players
 		for(Ranking ranking : rankingDeltas.keySet()) {
 			ranking.setValue(ranking.getValue().add(rankingDeltas.get(ranking)));
-			rankingRepository.save(ranking);
+			Player player = getPlayerFromUser(players, ranking.getUser());
+			playerRankings.put(player, ranking);
 		}
 	}
 	
@@ -163,4 +184,67 @@ public class GameService {
 		newRanking.setValue(game.getInitialRanking());
 		return rankingRepository.save(newRanking);
 	}
+	
+	public GameDTO recalculateRankings(String gameName, String token) {
+		matchLock.lock();
+		Game game;
+		try {
+			tryToRemoveToken(token);
+			
+			game = gameRepository.getGameByName(gameName);
+			if(game == null) {
+				throw new NullPointerException("Game not found");
+			}
+			
+			//Get all matches for this game in timeline order
+			List<Match> matches = matchRepository.getAllGameMatches(gameName);
+			//Get all players and their rankings who have participated so far in this game.
+			//For each player, set their ranking to game default.
+			List<Player> players = matchRepository.getAllGamePlayers(gameName);
+			Map<Player, Ranking> playerRankings = new HashMap<>();
+			for(Player player : players) {
+				Ranking ranking = rankingRepository.getUserGameRanking(player.getUser().getName(), gameName);
+				ranking.setValue(game.getInitialRanking());
+				playerRankings.put(player, ranking);
+			}
+			
+			//For each match, calculate the ranking deltas and set them for the players.
+			for(Match match : matches) {
+				//Initial info
+				Map<Player, Ranking> matchPlayerRankings = new HashMap<>();
+				for(Player player : match.getPlayers()) {
+					matchPlayerRankings.put(player, playerRankings.get(player));
+				}
+				//Get new rankings
+				createUpdatedRankings(game, matchPlayerRankings);
+				
+				//Save new rankings under playerRankings
+				for(Player player : matchPlayerRankings.keySet()) {
+					Ranking ranking = matchPlayerRankings.get(player);
+					ranking.setValue(ranking.getValue().setScale(5, BigDecimal.ROUND_UP));
+					playerRankings.put(player, ranking);
+				}
+			}
+			
+			//For each (updated) player object, save its ranking to the database.
+			for(Ranking ranking : playerRankings.values()) {
+				ranking.setValue(ranking.getValue().setScale(5, BigDecimal.ROUND_UP));
+				rankingRepository.save(ranking);
+			}
+		}
+		finally {
+			matchLock.unlock();
+		}
+		return new GameDTO(game);
+	}
+	
+	private Player getPlayerFromUser(List<Player> players, User user) {
+		for(Player player : players) {
+			if(player.getUser().getUserId().equals(user.getUserId())) {
+				return player;
+			}
+		}
+		throw new NullPointerException("User not found");
+	}
+	
 }

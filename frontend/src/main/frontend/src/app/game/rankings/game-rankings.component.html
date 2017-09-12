@@ -12,10 +12,10 @@
     </thead>
     <tbody>
     <tr *ngFor="let r of rankings">
-      <td>{{r.username}}</td>
-      <td>{{r.value}}</td>
+      <td><a [routerLink]="['/users', r.username]">{{r.username}}</a></td>
+      <td>{{r.value | round}}</td>
     </tr>
     </tbody>
   </table>
-  <div>TODO users should have links too?<br/>TODO Number of games?</div>
+  <a href="javascript:void(0)" (click)="recalculate()">Recalculate rankings</a>
 </div>

@@ -13,7 +13,7 @@ export class UserDetailsComponent implements OnInit {
   user: User;
 
   constructor(
-    private authentication: AuthenticationService,
+    private authenticationService: AuthenticationService,
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router

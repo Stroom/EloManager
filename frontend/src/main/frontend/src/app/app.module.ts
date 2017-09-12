@@ -23,6 +23,7 @@ import {GameRankingsResolve} from "./game/rankings/game-rankings.resolve";
 import {UserDetailsComponent} from "./user/details/user-details.component";
 import {UserDetailsResolve} from "./user/details/user-details.resolve";
 import {TokenResolve} from "./game/match/token.resolve";
+import {RoundPipe} from "./util";
 
 const routes: Routes = [
   {
@@ -45,7 +46,10 @@ const routes: Routes = [
   {
     path: 'games/:gameName/rankings',//TODO use gameId?
     component: GameRankingsComponent,
-    resolve: { rankings: GameRankingsResolve }
+    resolve: {
+      rankings: GameRankingsResolve,
+      token: TokenResolve
+    }
   },
   {
     path: 'games/:gameName/match',
@@ -86,7 +90,9 @@ const routes: Routes = [
     GameComponent,
     GameRankingsComponent,
     UserComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+
+    RoundPipe
   ],
   imports: [
     BrowserModule,

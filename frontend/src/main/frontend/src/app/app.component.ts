@@ -10,28 +10,28 @@ export class AppComponent {
   title = 'Elo Manager';
 
   constructor(
-    private authentication: AuthenticationService,
+    private authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    if(this.authentication.isLoggedIn() && !this.authentication.hasRoles()) {
+    if(this.authenticationService.isLoggedIn() && !this.authenticationService.hasRoles()) {
       console.log("asking for roles.");
-      this.authentication.authenticateForRoles();
+      this.authenticationService.authenticateForRoles();
     }
   }
 
   isLoggedIn(): boolean {
-    return this.authentication.isLoggedIn();
+    return this.authenticationService.isLoggedIn();
   }
 
   roleIs(roles: string[]): boolean {
-    return this.authentication.hasRole(roles);
+    return this.authenticationService.hasRole(roles);
   }
 
   logout(): void {
-    this.authentication.logout();
+    this.authenticationService.logout();
     this.router.navigateByUrl('');
   }
 }

@@ -53,8 +53,8 @@ public class GameRestController<Game, ID extends Serializable> {
 	
 	@GetMapping("/{gameName}/token")
 	@ResponseStatus(HttpStatus.OK)
-	public TokenDTO getMatchToken(@PathVariable("gameName") String gameName) {
-		return gameService.getMatchToken();
+	public TokenDTO getActionToken(@PathVariable("gameName") String gameName) {
+		return gameService.getActionToken();
 	}
 	
 	@PostMapping("/{gameName}")
@@ -64,6 +64,12 @@ public class GameRestController<Game, ID extends Serializable> {
 		return gameService.addMatch(match, token);
 	}
 	
+	@PostMapping("/{gameName}/recalculate")
+	@ResponseStatus(HttpStatus.OK)
+	@PreAuthorize("hasRole('ADMIN')")
+	public GameDTO recalculateRankings(@PathVariable("gameName") String gameName, @RequestParam(value = "token", required = true) String token) {
+		return gameService.recalculateRankings(gameName, token);
+	}
 	
 	
 	

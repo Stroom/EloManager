@@ -13,7 +13,7 @@ export class UserComponent implements OnInit {
   users: Array<User>;
 
   constructor(
-    private authentication: AuthenticationService,
+    private authenticationService: AuthenticationService,
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router

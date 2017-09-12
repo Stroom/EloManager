@@ -46,8 +46,8 @@ public class GameTest {
 		opponentRanking.setValue(BigDecimal.valueOf(1200));
 		
 		Pair<BigDecimal,BigDecimal> results = game.calculateRankingDeltas(player, opponent, playerRanking, opponentRanking);
-		assertThat(results.getValue0(), is(BigDecimal.valueOf(16).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
-		assertThat(results.getValue1(), is(BigDecimal.valueOf(-16).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue0(), is(BigDecimal.valueOf(16).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue1(), is(BigDecimal.valueOf(-16).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
 	}
 	
 	@Test
@@ -62,8 +62,8 @@ public class GameTest {
 		opponentRanking.setValue(BigDecimal.valueOf(1200));
 		
 		Pair<BigDecimal,BigDecimal> results = game.calculateRankingDeltas(player, opponent, playerRanking, opponentRanking);
-		assertThat(results.getValue0(), is(BigDecimal.valueOf(0).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
-		assertThat(results.getValue1(), is(BigDecimal.valueOf(0).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue0(), is(BigDecimal.valueOf(0).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue1(), is(BigDecimal.valueOf(0).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
 	}
 	
 	@Test
@@ -78,8 +78,8 @@ public class GameTest {
 		opponentRanking.setValue(BigDecimal.valueOf(1000));
 		
 		Pair<BigDecimal,BigDecimal> results = game.calculateRankingDeltas(player, opponent, playerRanking, opponentRanking);
-		assertThat(results.getValue0(), is(BigDecimal.valueOf(2.90909).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
-		assertThat(results.getValue1(), is(BigDecimal.valueOf(-2.90909).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue0(), is(BigDecimal.valueOf(2.90909088).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue1(), is(BigDecimal.valueOf(-2.90909088).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
 	}
 	
 	@Test
@@ -94,8 +94,8 @@ public class GameTest {
 		opponentRanking.setValue(BigDecimal.valueOf(1000));
 		
 		Pair<BigDecimal,BigDecimal> results = game.calculateRankingDeltas(player, opponent, playerRanking, opponentRanking);
-		assertThat(results.getValue0(), is(BigDecimal.valueOf(-29.09091).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
-		assertThat(results.getValue1(), is(BigDecimal.valueOf(29.09091).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue0(), is(BigDecimal.valueOf(-29.09090912).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue1(), is(BigDecimal.valueOf(29.09090912).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
 	}
 	
 	@Test
@@ -110,8 +110,8 @@ public class GameTest {
 		opponentRanking.setValue(BigDecimal.valueOf(1000));
 		
 		Pair<BigDecimal,BigDecimal> results = game.calculateRankingDeltas(player, opponent, playerRanking, opponentRanking);
-		assertThat(results.getValue0(), is(BigDecimal.valueOf(-13.09091).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
-		assertThat(results.getValue1(), is(BigDecimal.valueOf(13.09091).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue0(), is(BigDecimal.valueOf(-13.09090912).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue1(), is(BigDecimal.valueOf(13.09090912).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
 	}
 	
 	@Test
@@ -126,8 +126,8 @@ public class GameTest {
 		opponentRanking.setValue(BigDecimal.valueOf(1000));
 		
 		Pair<BigDecimal,BigDecimal> results = game.calculateRankingDeltas(player, opponent, playerRanking, opponentRanking);
-		assertThat(results.getValue0(), is(BigDecimal.valueOf(0.10087).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
-		assertThat(results.getValue1(), is(BigDecimal.valueOf(-0.10087).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue0(), is(BigDecimal.valueOf(0.10087392).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue1(), is(BigDecimal.valueOf(-0.10087392).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
 	}
 	
 	@Test
@@ -142,8 +142,8 @@ public class GameTest {
 		opponentRanking.setValue(BigDecimal.valueOf(1000));
 		
 		Pair<BigDecimal,BigDecimal> results = game.calculateRankingDeltas(player, opponent, playerRanking, opponentRanking);
-		assertThat(results.getValue0(), is(BigDecimal.valueOf(-31.89913).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
-		assertThat(results.getValue1(), is(BigDecimal.valueOf(31.89913).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue0(), is(BigDecimal.valueOf(-31.89912608).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue1(), is(BigDecimal.valueOf(31.89912608).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
 	}
 	
 	@Test
@@ -158,8 +158,8 @@ public class GameTest {
 		opponentRanking.setValue(BigDecimal.valueOf(1000));
 		
 		Pair<BigDecimal,BigDecimal> results = game.calculateRankingDeltas(player, opponent, playerRanking, opponentRanking);
-		assertThat(results.getValue0(), is(BigDecimal.valueOf(-15.89913).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
-		assertThat(results.getValue1(), is(BigDecimal.valueOf(15.89913).setScale(5, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue0(), is(BigDecimal.valueOf(-15.89912608).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
+		assertThat(results.getValue1(), is(BigDecimal.valueOf(15.89912608).setScale(8, BigDecimal.ROUND_UNNECESSARY)));
 	}
 	
 }
