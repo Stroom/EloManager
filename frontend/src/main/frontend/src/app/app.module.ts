@@ -22,8 +22,13 @@ import {GameRankingsComponent} from "./game/rankings/game-rankings.component";
 import {GameRankingsResolve} from "./game/rankings/game-rankings.resolve";
 import {UserDetailsComponent} from "./user/details/user-details.component";
 import {UserDetailsResolve} from "./user/details/user-details.resolve";
-import {TokenResolve} from "./game/match/token.resolve";
+import {TokenResolve} from "./authentication/token.resolve";
 import {RoundPipe} from "./util";
+import {MatchListComponent} from "./game/match/match-list.component";
+import {MatchListResolve} from "./game/match/match-list.resolve";
+import {MomentModule} from "angular2-moment";
+import {MatchDetailsComponent} from "./game/match/match-details.component";
+import {MatchDetailsResolve} from "./game/match/match-details.resolve";
 
 const routes: Routes = [
   {
@@ -46,8 +51,21 @@ const routes: Routes = [
   {
     path: 'games/:gameName/rankings',//TODO use gameId?
     component: GameRankingsComponent,
+    resolve: { rankings: GameRankingsResolve }
+  },
+  {
+    path: 'games/:gameName/matches',
+    component: MatchListComponent,
     resolve: {
-      rankings: GameRankingsResolve,
+      matches: MatchListResolve,
+      token: TokenResolve
+    }
+  },
+  {
+    path: 'games/:gameName/matches/:matchId',
+    component: MatchDetailsComponent,
+    resolve: {
+      match: MatchDetailsResolve,
       token: TokenResolve
     }
   },
@@ -87,6 +105,8 @@ const routes: Routes = [
     AuthenticationComponent,
     RegistrationComponent,
     MatchComponent,
+    MatchDetailsComponent,
+    MatchListComponent,
     GameComponent,
     GameRankingsComponent,
     UserComponent,
@@ -98,7 +118,9 @@ const routes: Routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+
+    MomentModule
   ],
   providers: [
     AuthenticationService,
@@ -110,6 +132,8 @@ const routes: Routes = [
 
     GameResolve,
     GameRankingsResolve,
+    MatchDetailsResolve,
+    MatchListResolve,
     TokenResolve,
     UserResolve,
     UserDetailsResolve

@@ -64,6 +64,61 @@ public class GameService {
 		return gameRepository.getGameMatches(gameName).stream().map(MatchDTO::new).collect(Collectors.toList());
 	}
 	
+	public MatchDTO getMatch(String gameName, Long matchId) {
+		return new MatchDTO(gameRepository.getGameMatch(gameName, matchId));
+	}
+	
+	public MatchDTO updateMatch(String gameName, Long matchId, MatchDTO matchDTO, String token) {
+		matchLock.lock();
+		Match match;
+		try {
+			tryToRemoveToken(token);
+			
+			match = gameRepository.getGameMatch(gameName, matchId);
+			if(match == null) {
+				throw new NullPointerException("Match not found.");
+			}
+			
+			if(matchDTO.getDateTime() != null) {
+				match.setDateTime(matchDTO.getDateTime());
+			}
+			
+			List<Player> oldPlayers = match.getPlayers();
+			List<Player> newPlayers = new ArrayList<>();
+			if(matchDTO.getPlayers() != null && matchDTO.getPlayers().size() > 1) {
+				setMatchData(match, matchDTO, newPlayers);
+			}
+			
+			playerRepository.save(newPlayers);
+			matchRepository.save(match);
+			oldPlayers.forEach(playerRepository::delete);
+		}
+		finally {
+			matchLock.unlock();
+		}
+		return new MatchDTO(match);
+	}
+	
+	public MatchDTO deleteGameMatch(String gameName, Long matchId, String token) {
+		matchLock.lock();
+		Match match;
+		try {
+			tryToRemoveToken(token);
+			
+			match = matchRepository.findOne(matchId);
+			if(match == null) {
+				throw new NullPointerException("Match not found.");
+			}
+			
+			matchRepository.delete(match);
+			match.getPlayers().forEach(playerRepository::delete);
+		}
+		finally {
+			matchLock.unlock();
+		}
+		return new MatchDTO(match);
+	}
+	
 	public List<RankingDTO> getGameRankings(String gameName) {
 		return gameRepository.getGameRankings(gameName).stream().map(RankingDTO::new).collect(Collectors.toList());
 	}
@@ -196,24 +251,23 @@ public class GameService {
 				throw new NullPointerException("Game not found");
 			}
 			
-			//Get all matches for this game in timeline order
-			List<Match> matches = matchRepository.getAllGameMatches(gameName);
-			//Get all players and their rankings who have participated so far in this game.
-			//For each player, set their ranking to game default.
-			List<Player> players = matchRepository.getAllGamePlayers(gameName);
-			Map<Player, Ranking> playerRankings = new HashMap<>();
-			for(Player player : players) {
-				Ranking ranking = rankingRepository.getUserGameRanking(player.getUser().getName(), gameName);
+			//Get all users and their rankings who have participated so far in this game.
+			//For each user, set their ranking to game default.
+			List<Ranking> rankings = rankingRepository.getAllGameRankings(gameName);
+			Map<User, Ranking> userRankings = new HashMap<>();
+			for(Ranking ranking : rankings) {
 				ranking.setValue(game.getInitialRanking());
-				playerRankings.put(player, ranking);
+				userRankings.put(ranking.getUser(), ranking);
 			}
 			
+			//Get all matches for this game in timeline order
+			List<Match> matches = matchRepository.getAllGameMatches(gameName);
 			//For each match, calculate the ranking deltas and set them for the players.
 			for(Match match : matches) {
 				//Initial info
 				Map<Player, Ranking> matchPlayerRankings = new HashMap<>();
 				for(Player player : match.getPlayers()) {
-					matchPlayerRankings.put(player, playerRankings.get(player));
+					matchPlayerRankings.put(player, userRankings.get(player.getUser()));
 				}
 				//Get new rankings
 				createUpdatedRankings(game, matchPlayerRankings);
@@ -222,12 +276,12 @@ public class GameService {
 				for(Player player : matchPlayerRankings.keySet()) {
 					Ranking ranking = matchPlayerRankings.get(player);
 					ranking.setValue(ranking.getValue().setScale(5, BigDecimal.ROUND_UP));
-					playerRankings.put(player, ranking);
+					userRankings.put(player.getUser(), ranking);
 				}
 			}
 			
 			//For each (updated) player object, save its ranking to the database.
-			for(Ranking ranking : playerRankings.values()) {
+			for(Ranking ranking : userRankings.values()) {
 				ranking.setValue(ranking.getValue().setScale(5, BigDecimal.ROUND_UP));
 				rankingRepository.save(ranking);
 			}

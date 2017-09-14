@@ -23,6 +23,8 @@ export class Token {
 }
 
 export class Match {
+  matchId: number;
+  dateTime: Date;
   gameName: string;
   players: Array<Player>;
 

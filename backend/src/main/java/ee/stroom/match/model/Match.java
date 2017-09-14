@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +26,7 @@ public class Match {
 	
 	@ManyToOne
 	private Game game;
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	private List<Player> players;
 	
 	public Match(Game game) {

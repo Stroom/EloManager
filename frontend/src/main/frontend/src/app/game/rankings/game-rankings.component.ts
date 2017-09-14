@@ -10,8 +10,6 @@ import {Ranking, Token} from "app/definitions";
 })
 export class GameRankingsComponent implements OnInit {
 
-  token: string;
-
   gameName: string;
   rankings: Array<Ranking>;
 
@@ -24,9 +22,8 @@ export class GameRankingsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data
-      .subscribe((data: {rankings: Ranking[], token: Token}) => {
+      .subscribe((data: {rankings: Ranking[]}) => {
           this.rankings = data.rankings;
-          this.token = data.token.token;
         },
         err => {
           console.log("Could not retrieve rankings data.");
@@ -35,17 +32,6 @@ export class GameRankingsComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.gameName = params['gameName'];
     });
-  }
-
-  recalculate(): void {
-    this.gameService.recalculate(this.gameName, this.token).then(
-      response => this.redirectToGameRankings(),
-      err => console.log("err")
-    );
-  }
-
-  private redirectToGameRankings() {
-    this.router.navigateByUrl('games');
   }
 
 }

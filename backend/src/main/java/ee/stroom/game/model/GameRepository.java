@@ -25,4 +25,6 @@ public interface GameRepository extends JpaRepository<Game, Long> {
 	@Query(value = "select M from Match M where M.game.name = :game_name order by M.dateTime desc")
 	List<Match> getGameMatches(@Param("game_name") String gameName);
 	
+	@Query(value = "select M from Match M where M.game.name = :game_name and M.matchId = :match_id")
+	Match getGameMatch(@Param("game_name") String gameName, @Param("match_id") Long matchId);
 }

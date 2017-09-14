@@ -9,6 +9,7 @@ import ee.stroom.ranking.model.dto.RankingDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +46,30 @@ public class GameRestController<Game, ID extends Serializable> {
 		return gameService.getGameMatches(gameName);
 	}
 	
+	@GetMapping("/{gameName}/matches/{matchId}")
+	@ResponseStatus(HttpStatus.OK)
+	public MatchDTO getMatch(@PathVariable("gameName") String gameName,
+							 @PathVariable("matchId") Long matchId) {
+		return gameService.getMatch(gameName, matchId);
+	}
+	
+	@PostMapping("/{gameName}/matches/{matchId}")
+	@ResponseStatus(HttpStatus.OK)
+	public MatchDTO updateMatch(@PathVariable("gameName") String gameName,
+								@PathVariable("matchId") Long matchId,
+								@RequestBody MatchDTO match,
+								@RequestParam(value = "token", required = true) String token) {
+		return gameService.updateMatch(gameName, matchId, match, token);
+	}
+	
+	@DeleteMapping("/{gameName}/matches/{matchId}")
+	@ResponseStatus(HttpStatus.OK)
+	public MatchDTO deleteGameMatch(@PathVariable("gameName") String gameName,
+									@PathVariable("matchId") Long matchId,
+									@RequestParam(value = "token", required = true) String token) {
+		return gameService.deleteGameMatch(gameName, matchId, token);
+	}
+	
 	@GetMapping("/{gameName}/rankings")
 	@ResponseStatus(HttpStatus.OK)
 	public List<RankingDTO> getGameRankings(@PathVariable("gameName") String gameName) {
@@ -60,16 +85,20 @@ public class GameRestController<Game, ID extends Serializable> {
 	@PostMapping("/{gameName}")
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasRole('ADMIN')")
-	public GameDTO addMatch(@PathVariable("gameName") String gameName, @RequestParam(value = "token", required = true) String token, @RequestBody MatchDTO match) {
+	public GameDTO addMatch(@PathVariable("gameName") String gameName,
+							@RequestParam(value = "token", required = true) String token,
+							@RequestBody MatchDTO match) {
 		return gameService.addMatch(match, token);
 	}
 	
 	@PostMapping("/{gameName}/recalculate")
 	@ResponseStatus(HttpStatus.OK)
 	@PreAuthorize("hasRole('ADMIN')")
-	public GameDTO recalculateRankings(@PathVariable("gameName") String gameName, @RequestParam(value = "token", required = true) String token) {
+	public GameDTO recalculateRankings(@PathVariable("gameName") String gameName,
+									   @RequestParam(value = "token", required = true) String token) {
 		return gameService.recalculateRankings(gameName, token);
 	}
+	
 	
 	
 	

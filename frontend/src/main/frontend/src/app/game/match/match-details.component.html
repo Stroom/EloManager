@@ -1,0 +1,44 @@
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript!
+    Please enable Javascript and reload this page!</h2></noscript>
+<div id="main-content" class="container">
+  <h2>{{gameName}} match {{matchId}}</h2>
+
+  <form (ngSubmit)="onSubmit()" #matchForm="ngForm">
+    <div class="form-group">
+      <input type="text" class="form-control" id="id" [(ngModel)]="match.matchId" name="matchId" hidden required>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" id="name" [(ngModel)]="match.gameName" name="gameName" hidden required>
+    </div>
+    <div>
+      <label for="dateTime">Match time</label>
+      <input type="dateTime" class="form-control" id="datetime" [(ngModel)]="match.dateTime" name="dateTime" [readonly]=true required>
+    </div>
+
+    <table class="table table-bordered table-striped">
+      <thead>
+      <tr>
+        <th class="text-center">Player</th>
+        <th class="text-center">Score</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let p of match.players; let i = index" [attr.data-index]="i">
+        <td>
+          <div class="form-group">
+            <input type="text" class="form-control" id="playerName_{{i}}" [(ngModel)]="match.players[i].username" name="playerName_{{i}}" required>
+          </div>
+        </td>
+        <td>
+          <div class="form-group">
+            <input type="text" class="form-control" id="playerScore_{{i}}" [(ngModel)]="match.players[i].score" name="playerScore_{{i}}" required>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-success" [disabled]="!matchForm.form.valid">Submit</button>
+  </form>
+
+</div>

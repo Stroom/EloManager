@@ -1,0 +1,29 @@
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript!
+    Please enable Javascript and reload this page!</h2></noscript>
+<div id="main-content" class="container">
+  <h2>{{gameName}} matches</h2>
+  <table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+      <th class="text-centger">DateTime</th>
+      <th class="text-center">Players</th>
+      <th class="text-center">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let m of matches">
+      <td>{{m.dateTime | amDateFormat: 'YYYY-MM-DD HH:mm'}}</td>
+      <td>
+        <p *ngFor="let p of m.players">
+          <a [routerLink]="['/users', p.username]">{{p.username}}</a> - {{p.score}}
+        </p>
+      </td>
+      <td>
+        <p><a [routerLink]="['/games', gameName, 'matches', m.matchId]">Modify</a></p>
+        <p><a href="javascript:void(0)" (click)="deleteMatch(m.matchId)">Delete</a></p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <a href="javascript:void(0)" (click)="recalculate()">Recalculate rankings</a>
+</div>

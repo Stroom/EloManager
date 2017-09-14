@@ -4,9 +4,9 @@ import {Http, RequestOptions, Headers } from "@angular/http";
 
 import 'rxjs/add/operator/toPromise';
 
-import {Token } from "app/definitions";
-import {environment } from "../../../environments/environment";
-import {AuthenticationService} from "../../authentication/authentication.service";
+import {Token } from "../definitions";
+import {environment } from "../../environments/environment";
+import {AuthenticationService} from "./authentication.service";
 
 @Injectable()
 export class TokenResolve implements Resolve<Promise<Token> | boolean> {

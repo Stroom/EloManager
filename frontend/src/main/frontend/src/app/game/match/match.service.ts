@@ -34,6 +34,46 @@ export class MatchService {
       .catch(this.handleError);
   }
 
+  updateMatch(gameName: string, matchId: string, match: Match, token: string) {
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': this.authenticationService.getToken()
+    });
+    let params = new URLSearchParams();
+    params.set('token', token);
+    let options = new RequestOptions({
+      headers: headers,
+      params: params
+    });
+    return this.http
+      .post(environment.BASE_URL + '/api/games/' + gameName + '/matches/' + matchId, match, options).toPromise()
+      .then(
+        response => Promise.resolve(response.json()),
+        err => Promise.reject(null)
+      )
+      .catch(this.handleError);
+  }
+
+  deleteMatch(gameName : string, matchId: number, token: string) {
+    let headers = new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': this.authenticationService.getToken()
+    });
+    let params = new URLSearchParams();
+    params.set('token', token);
+    let options = new RequestOptions({
+      headers: headers,
+      params: params
+    });
+    return this.http
+      .delete(environment.BASE_URL + '/api/games/' + gameName + '/matches/' + matchId, options).toPromise()
+      .then(
+        response => Promise.resolve(response.json()),
+        err => Promise.reject(null)
+      )
+      .catch(this.handleError);
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('Error occurred', error);
     return Promise.reject(error.message || error);

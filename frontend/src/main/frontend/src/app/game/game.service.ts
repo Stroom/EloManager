@@ -4,6 +4,7 @@ import {AuthenticationService} from "../authentication/authentication.service";
 import {environment} from "../../environments/environment";
 
 import 'rxjs/add/operator/toPromise';
+import {Match} from "../definitions";
 
 @Injectable()
 export class GameService {
@@ -37,4 +38,5 @@ export class GameService {
     console.error('Error occurred', error);
     return Promise.reject(error.message || error);
   }
+
 }
