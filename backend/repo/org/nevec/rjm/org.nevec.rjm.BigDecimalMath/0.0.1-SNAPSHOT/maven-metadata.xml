@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>org.nevec.rjm</groupId>
+  <artifactId>org.nevec.rjm.BigDecimalMath</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <versioning>
+    <snapshot>
+      <timestamp>20171012.181115</timestamp>
+      <buildNumber>1</buildNumber>
+    </snapshot>
+    <lastUpdated>20171012181115</lastUpdated>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>jar</extension>
+        <value>0.0.1-20171012.181115-1</value>
+        <updated>20171012181115</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>0.0.1-20171012.181115-1</value>
+        <updated>20171012181115</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+</metadata>
