@@ -13,7 +13,7 @@ public class PlayerDTO {
 	private BigDecimal score;
 	
 	public PlayerDTO(Player player) {
-		this.username = player.getUser().getName();
+		this.username = player.getGameUser().getName();
 		this.score = player.getScore();
 	}
 }

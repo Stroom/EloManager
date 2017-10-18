@@ -1,7 +1,7 @@
 package ee.stroom.user.controller;
 
 import ee.stroom.match.model.dto.MatchDTO;
-import ee.stroom.user.model.dto.UserDTO;
+import ee.stroom.user.model.dto.GameUserDTO;
 import ee.stroom.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,22 +15,22 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin
-public class UserRestController {
+public class GameUserRestController {
 	
 	private final UserService userService;
 	
 	@Autowired
-	UserRestController(UserService userService) {
+	GameUserRestController(UserService userService) {
 		this.userService = userService;
 	}
 	
 	@GetMapping
-	public List<UserDTO> getAllUsers() {
+	public List<GameUserDTO> getAllUsers() {
 		return userService.getAllUsers();
 	}
 	
 	@GetMapping("/{username}")
-	public UserDTO getUserByName(@PathVariable("username") String username) {
+	public GameUserDTO getUserByName(@PathVariable("username") String username) {
 		return userService.getUserByName(username);
 	}
 	

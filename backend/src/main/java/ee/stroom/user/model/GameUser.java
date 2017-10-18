@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-public class User {
+public class GameUser {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userId;
@@ -26,10 +26,10 @@ public class User {
 	@NotNull
 	private String name;
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "gameUser")
 	private List<Ranking> rankings;
 	
-	public User(String name) {
+	public GameUser(String name) {
 		this.name = name;
 		this.rankings = Collections.emptyList();
 	}

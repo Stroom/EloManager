@@ -1,7 +1,7 @@
 package ee.stroom.user.model.dto;
 
 import ee.stroom.ranking.model.dto.RankingDTO;
-import ee.stroom.user.model.User;
+import ee.stroom.user.model.GameUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,16 +12,16 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
-public class UserDTO {
+public class GameUserDTO {
 	
 	private String username;
 	
 	private List<RankingDTO> rankings;
 	
-	public UserDTO(User user) {
-		this.username = user.getName();
-		if(user.getRankings() != null && !user.getRankings().isEmpty()) {
-			this.rankings = user.getRankings().stream()
+	public GameUserDTO(GameUser gameUser) {
+		this.username = gameUser.getName();
+		if(gameUser.getRankings() != null && !gameUser.getRankings().isEmpty()) {
+			this.rankings = gameUser.getRankings().stream()
 					.map(ranking -> new RankingDTO(ranking))
 					.sorted(new Comparator<RankingDTO>() {
 							@Override

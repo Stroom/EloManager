@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface RankingRepository extends JpaRepository<Ranking, Long> {
 	
-	@Query(value = "select R from Ranking R where R.user.name = :username and R.game.name = :game_name")
+	@Query(value = "select R from Ranking R where R.gameUser.name = :username and R.game.name = :game_name")
 	Ranking getUserGameRanking(@Param("username") String username, @Param("game_name") String gameName);
 	
 	@Query(value = "select R from Ranking R where R.game.name = :game_name")

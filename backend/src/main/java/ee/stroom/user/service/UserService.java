@@ -2,7 +2,7 @@ package ee.stroom.user.service;
 
 import ee.stroom.match.model.dto.MatchDTO;
 import ee.stroom.user.model.UserRepository;
-import ee.stroom.user.model.dto.UserDTO;
+import ee.stroom.user.model.dto.GameUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,17 +20,17 @@ public class UserService {
 		this.userRepository = userRepository;
 	}
 	
-	public List<UserDTO> getAllUsers() {
-		return userRepository.findAll().stream().map(user -> new UserDTO(user)).sorted(new Comparator<UserDTO>() {
+	public List<GameUserDTO> getAllUsers() {
+		return userRepository.findAll().stream().map(user -> new GameUserDTO(user)).sorted(new Comparator<GameUserDTO>() {
 			@Override
-			public int compare(UserDTO o1, UserDTO o2) {
+			public int compare(GameUserDTO o1, GameUserDTO o2) {
 				return o1.getUsername().compareTo(o2.getUsername());
 			}
 		}).collect(Collectors.toList());
 	}
 	
-	public UserDTO getUserByName(String username) {
-		return new UserDTO(userRepository.findByName(username));
+	public GameUserDTO getUserByName(String username) {
+		return new GameUserDTO(userRepository.findByName(username));
 	}
 	
 	public List<MatchDTO> getUserMatches(String username) {

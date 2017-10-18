@@ -14,7 +14,7 @@ import ee.stroom.match.model.dto.PlayerDTO;
 import ee.stroom.ranking.model.Ranking;
 import ee.stroom.ranking.model.RankingRepository;
 import ee.stroom.ranking.model.dto.RankingDTO;
-import ee.stroom.user.model.User;
+import ee.stroom.user.model.GameUser;
 import ee.stroom.user.model.UserRepository;
 import org.javatuples.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -185,11 +185,11 @@ public class GameService {
 	
 	private void setMatchData(Match match, MatchDTO matchDTO, List<Player> players) {
 		for(PlayerDTO playerDTO : matchDTO.getPlayers()) {
-			User user = userRepository.findByName(playerDTO.getUsername());
-			if(user == null) {
-				user = userRepository.save(new User(playerDTO.getUsername()));
+			GameUser gameUser = userRepository.findByName(playerDTO.getUsername());
+			if(gameUser == null) {
+				gameUser = userRepository.save(new GameUser(playerDTO.getUsername()));
 			}
-			players.add(new Player(user, playerDTO.getScore()));
+			players.add(new Player(gameUser, playerDTO.getScore()));
 		}
 		//TODO check that there are no duplicate players.
 		match.setPlayers(players);
@@ -197,9 +197,9 @@ public class GameService {
 	
 	private void setPlayerRankings(Map<Player, Ranking> playerRankings, Game game, List<Player> players) {
 		for(Player player : players) {
-			Ranking ranking = rankingRepository.getUserGameRanking(player.getUser().getName(), game.getName());
+			Ranking ranking = rankingRepository.getUserGameRanking(player.getGameUser().getName(), game.getName());
 			if(ranking == null) {
-				ranking = setNewRanking(game, player.getUser());
+				ranking = setNewRanking(game, player.getGameUser());
 			}
 			playerRankings.put(player, ranking);
 		}
@@ -214,7 +214,7 @@ public class GameService {
 			Ranking playerRanking = playerRankings.get(player);
 			for(int j = i+1; j < players.size(); j++) {
 				Player opponent = players.get(j);
-				if(!player.getUser().getUserId().equals(opponent.getUser().getUserId())) {//TODO maybe just compare objects.
+				if(!player.getGameUser().getUserId().equals(opponent.getGameUser().getUserId())) {//TODO maybe just compare objects.
 					Ranking opponentRanking = playerRankings.get(opponent);
 					
 					Pair<BigDecimal, BigDecimal> deltas = game.calculateRankingDeltas(player, opponent, playerRanking, opponentRanking);
@@ -227,15 +227,15 @@ public class GameService {
 		//Based on deltas list add it to each players ranking and update the current rankings of all players
 		for(Ranking ranking : rankingDeltas.keySet()) {
 			ranking.setValue(ranking.getValue().add(rankingDeltas.get(ranking)));
-			Player player = getPlayerFromUser(players, ranking.getUser());
+			Player player = getPlayerFromUser(players, ranking.getGameUser());
 			playerRankings.put(player, ranking);
 		}
 	}
 	
-	private Ranking setNewRanking(Game game, User user) {
+	private Ranking setNewRanking(Game game, GameUser gameUser) {
 		Ranking newRanking = new Ranking();
 		newRanking.setGame(game);
-		newRanking.setUser(user);
+		newRanking.setGameUser(gameUser);
 		newRanking.setValue(game.getInitialRanking());
 		return rankingRepository.save(newRanking);
 	}
@@ -254,10 +254,10 @@ public class GameService {
 			//Get all users and their rankings who have participated so far in this game.
 			//For each user, set their ranking to game default.
 			List<Ranking> rankings = rankingRepository.getAllGameRankings(gameName);
-			Map<User, Ranking> userRankings = new HashMap<>();
+			Map<GameUser, Ranking> userRankings = new HashMap<>();
 			for(Ranking ranking : rankings) {
 				ranking.setValue(game.getInitialRanking());
-				userRankings.put(ranking.getUser(), ranking);
+				userRankings.put(ranking.getGameUser(), ranking);
 			}
 			
 			//Get all matches for this game in timeline order
@@ -267,7 +267,7 @@ public class GameService {
 				//Initial info
 				Map<Player, Ranking> matchPlayerRankings = new HashMap<>();
 				for(Player player : match.getPlayers()) {
-					matchPlayerRankings.put(player, userRankings.get(player.getUser()));
+					matchPlayerRankings.put(player, userRankings.get(player.getGameUser()));
 				}
 				//Get new rankings
 				createUpdatedRankings(game, matchPlayerRankings);
@@ -276,7 +276,7 @@ public class GameService {
 				for(Player player : matchPlayerRankings.keySet()) {
 					Ranking ranking = matchPlayerRankings.get(player);
 					ranking.setValue(ranking.getValue().setScale(5, BigDecimal.ROUND_UP));
-					userRankings.put(player.getUser(), ranking);
+					userRankings.put(player.getGameUser(), ranking);
 				}
 			}
 			
@@ -292,9 +292,9 @@ public class GameService {
 		return new GameDTO(game);
 	}
 	
-	private Player getPlayerFromUser(List<Player> players, User user) {
+	private Player getPlayerFromUser(List<Player> players, GameUser gameUser) {
 		for(Player player : players) {
-			if(player.getUser().getUserId().equals(user.getUserId())) {
+			if(player.getGameUser().getUserId().equals(gameUser.getUserId())) {
 				return player;
 			}
 		}

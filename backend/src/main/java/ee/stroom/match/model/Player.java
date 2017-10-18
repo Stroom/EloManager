@@ -1,6 +1,6 @@
 package ee.stroom.match.model;
 
-import ee.stroom.user.model.User;
+import ee.stroom.user.model.GameUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,12 +20,12 @@ public class Player {
 	private Long playerId;
 	
 	@ManyToOne
-	private User user;
+	private GameUser gameUser;
 	
 	private BigDecimal score;
 	
-	public Player(User user, BigDecimal score) {
-		this.user = user;
+	public Player(GameUser gameUser, BigDecimal score) {
+		this.gameUser = gameUser;
 		this.score = score;
 	}
 }

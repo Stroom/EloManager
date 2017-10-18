@@ -15,7 +15,7 @@ public class RankingDTO {
 	private BigDecimal value;
 	
 	public RankingDTO(Ranking ranking) {
-		this.username = ranking.getUser().getName();
+		this.username = ranking.getGameUser().getName();
 		this.gameName = ranking.getGame().getName();
 		this.value = ranking.getValue();
 	}

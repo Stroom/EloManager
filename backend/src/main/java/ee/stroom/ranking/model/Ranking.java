@@ -1,7 +1,7 @@
 package ee.stroom.ranking.model;
 
 import ee.stroom.game.model.Game;
-import ee.stroom.user.model.User;
+import ee.stroom.user.model.GameUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,7 +24,7 @@ public class Ranking {
 	
 	@NotNull
 	@ManyToOne
-	private User user;
+	private GameUser gameUser;
 	
 	@NotNull
 	@ManyToOne
