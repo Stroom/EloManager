@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -184,10 +185,14 @@ public class GameService {
 	}
 	
 	private void setMatchData(Match match, MatchDTO matchDTO, List<Player> players) {
+		Logger log = Logger.getLogger(GameService.class.getName());
+		log.warning(match + " " + matchDTO + " " + players);
 		for(PlayerDTO playerDTO : matchDTO.getPlayers()) {
 			GameUser gameUser = userRepository.findByName(playerDTO.getUsername());
+			log.warning(gameUser.toString());
 			if(gameUser == null) {
 				gameUser = userRepository.save(new GameUser(playerDTO.getUsername()));
+				log.warning("null" + gameUser.toString());
 			}
 			players.add(new Player(gameUser, playerDTO.getScore()));
 		}

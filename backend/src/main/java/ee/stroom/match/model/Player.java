@@ -4,6 +4,7 @@ import ee.stroom.user.model.GameUser;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +17,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class Player {
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(columnDefinition = "serial")
 	private Long playerId;
 	
 	@ManyToOne

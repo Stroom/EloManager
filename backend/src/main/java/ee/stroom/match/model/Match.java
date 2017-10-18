@@ -4,6 +4,7 @@ import ee.stroom.game.model.Game;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,6 +22,7 @@ import java.util.List;
 public class Match {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(columnDefinition = "serial")
 	private Long matchId;
 	private LocalDateTime dateTime;
 	

@@ -20,6 +20,7 @@ import java.util.List;
 public class GameUser {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(columnDefinition = "serial")
 	private Long userId;
 	
 	@Column(unique = true)
