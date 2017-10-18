@@ -11,7 +11,7 @@ jwt:
 
 spring:
   datasource:
-    platform:postgres
+    platform: postgres
     url: postgres://ec2-54-204-41-80.compute-1.amazonaws.com:5432/d88kl0oksf6nbl
     username: hpiovufdtrevmo
     password: a61f7df1aa876b8363472195f05f0255db1444b39fc4de8577419091bae1720f
