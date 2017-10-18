@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Match {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="match_id_seq")
+	@SequenceGenerator(name="match_id_seq", sequenceName="match_id_seq", allocationSize=1)
 	@Column(columnDefinition = "bigserial")
 	private Long matchId;
 	private LocalDateTime dateTime;

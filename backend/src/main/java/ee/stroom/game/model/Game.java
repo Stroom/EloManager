@@ -14,6 +14,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,7 +24,8 @@ import java.math.RoundingMode;
 @NoArgsConstructor
 public class Game {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="game_id_seq")
+	@SequenceGenerator(name="game_id_seq", sequenceName="game_id_seq", allocationSize=1)
 	@Column(columnDefinition = "bigserial")
 	private Long gameId;
 	

@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -24,7 +25,8 @@ import java.util.List;
 public class SiteUser {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="site_user_id_seq")
+	@SequenceGenerator(name="site_user_id_seq", sequenceName="site_user_id_seq", allocationSize=1)
 	@Column(columnDefinition = "bigserial")
 	private Long id;
 	
