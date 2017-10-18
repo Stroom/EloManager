@@ -22,7 +22,7 @@ import java.util.List;
 public class Match {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(columnDefinition = "serial")
+	@Column(columnDefinition = "bigserial")
 	private Long matchId;
 	private LocalDateTime dateTime;
 	

@@ -19,7 +19,7 @@ public class Player {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(columnDefinition = "serial")
+	@Column(columnDefinition = "bigserial")
 	private Long playerId;
 	
 	@ManyToOne

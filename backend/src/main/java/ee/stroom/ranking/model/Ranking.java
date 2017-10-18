@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 public class Ranking {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(columnDefinition = "serial")
+	@Column(columnDefinition = "bigserial")
 	private Long rankingId;
 	
 	@NotNull

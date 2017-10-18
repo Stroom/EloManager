@@ -24,7 +24,7 @@ import java.math.RoundingMode;
 public class Game {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(columnDefinition = "serial")
+	@Column(columnDefinition = "bigserial")
 	private Long gameId;
 	
 	@NotNull
