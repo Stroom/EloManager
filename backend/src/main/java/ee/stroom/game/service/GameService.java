@@ -189,10 +189,12 @@ public class GameService {
 		log.warning(match + " " + matchDTO + " " + players);
 		for(PlayerDTO playerDTO : matchDTO.getPlayers()) {
 			GameUser gameUser = userRepository.findByName(playerDTO.getUsername());
-			log.warning(gameUser.toString());
 			if(gameUser == null) {
 				gameUser = userRepository.save(new GameUser(playerDTO.getUsername()));
 				log.warning("null" + gameUser.toString());
+			}
+			else {
+				log.warning("okok" + gameUser.toString());
 			}
 			players.add(new Player(gameUser, playerDTO.getScore()));
 		}
