@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Match {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(columnDefinition = "bigserial")
 	private Long matchId;
 	private LocalDateTime dateTime;

@@ -15,7 +15,7 @@ import javax.persistence.Id;
 public class Authority {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(columnDefinition = "bigserial")
 	private Long id;
 	

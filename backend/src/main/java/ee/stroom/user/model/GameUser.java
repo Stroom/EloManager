@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class GameUser {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(columnDefinition = "bigserial")
 	private Long userId;
 	

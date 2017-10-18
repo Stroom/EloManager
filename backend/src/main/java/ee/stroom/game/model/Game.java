@@ -23,7 +23,7 @@ import java.math.RoundingMode;
 @NoArgsConstructor
 public class Game {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(columnDefinition = "bigserial")
 	private Long gameId;
 	

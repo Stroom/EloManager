@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 public class Player {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(columnDefinition = "bigserial")
 	private Long playerId;
 	
