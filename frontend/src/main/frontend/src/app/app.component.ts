@@ -17,7 +17,6 @@ export class AppComponent {
 
   ngOnInit(): void {
     if(this.authenticationService.isLoggedIn() && !this.authenticationService.hasRoles()) {
-      console.log("asking for roles.");
       this.authenticationService.authenticateForRoles();
     }
   }

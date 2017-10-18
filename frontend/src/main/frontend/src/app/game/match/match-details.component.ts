@@ -37,7 +37,6 @@ export class MatchDetailsComponent implements OnInit {
       this.gameName = params['gameName'];
       this.matchId = params['matchId'];
     });
-    console.log(this.match);
   }
 
   onSubmit(): void {

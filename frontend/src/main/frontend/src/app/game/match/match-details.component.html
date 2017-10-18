@@ -12,7 +12,8 @@
     </div>
     <div>
       <label for="dateTime">Match time</label>
-      <input type="dateTime" class="form-control" id="datetime" [(ngModel)]="match.dateTime" name="dateTime" [readonly]=true required>
+      <input hidden type="dateTime" class="form-control" id="datetime" [(ngModel)]="match.dateTime" name="dateTime" [readonly]=true required>
+      {{match.dateTime | amDateFormat: 'YYYY-MM-DD HH:mm'}}
     </div>
 
     <table class="table table-bordered table-striped">
