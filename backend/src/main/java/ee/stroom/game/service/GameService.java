@@ -81,7 +81,7 @@ public class GameService {
 			}
 			
 			if(matchDTO.getDateTime() != null) {
-				match.setDateTime(matchDTO.getDateTime());
+				//match.setDateTime(matchDTO.getDateTime());
 			}
 			
 			List<Player> oldPlayers = match.getPlayers();
