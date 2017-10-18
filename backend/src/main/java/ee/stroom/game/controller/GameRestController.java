@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/games")
@@ -89,8 +88,6 @@ public class GameRestController<Game, ID extends Serializable> {
 	public GameDTO addMatch(@PathVariable("gameName") String gameName,
 							@RequestParam(value = "token", required = true) String token,
 							@RequestBody MatchDTO match) {
-		Logger log = Logger.getLogger(GameRestController.class.getName());
-		log.warning(gameName + " " + token + " " + match.toString());
 		return gameService.addMatch(match, token);
 	}
 	
