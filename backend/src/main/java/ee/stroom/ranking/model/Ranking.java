@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -20,9 +19,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class Ranking {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ranking_id_seq")
-	@SequenceGenerator(name="ranking_id_seq", sequenceName="ranking_id_seq", allocationSize=1)
-	@Column(columnDefinition = "bigserial")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long rankingId;
 	
 	@NotNull
